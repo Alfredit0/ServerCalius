@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import mx.edu.unsis.ResponseVo;
 import mx.edu.unsis.RequestVo;
@@ -27,7 +28,7 @@ import mx.edu.unsis.service.UserService;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class HomeController extends WebMvcConfigurerAdapter{
 	
 	@Autowired
 	private UserService usv;
@@ -53,7 +54,7 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public @ResponseBody ResponseVo login(
 			HttpServletResponse response, 
 			@RequestBody RequestVo req
@@ -79,6 +80,22 @@ public class HomeController {
 		response.setContentType("application/json");
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		return res;
+	}
+	
+	@RequestMapping(value = "/prueba", method = RequestMethod.GET)
+	public @ResponseBody ResponseVo prueba2(HttpServletResponse response) {
+		Users p = this.usv.getUserById("2013060024");
+		
+		ResponseVo res = new ResponseVo();
+		
+			res.setsuccessPassword(false);
+			res.setSuccessToken(false);
+			res.setMessageType("GET");
+			res.setPost(true);
+			response.setContentType("application/json");
+			response.setHeader("Access-Control-Allow-Origin", "*");
+			response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 		return res;
 	}
 }
