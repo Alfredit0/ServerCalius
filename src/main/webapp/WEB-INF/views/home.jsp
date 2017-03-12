@@ -10,5 +10,6 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
+<P>  Datos del usuario ${matricula}. </P>
 </body>
 </html>
