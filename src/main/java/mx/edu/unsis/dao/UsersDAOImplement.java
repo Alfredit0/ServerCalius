@@ -25,7 +25,7 @@ public class UsersDAOImplement implements UsersDAO{
 
 	@Override
 	public void insertUser(Users user) {
-		String query = "INSERT INTO Users (user_id, user_pass) VALUES (?, ?);";
+		String query = "INSERT INTO usuarios (id_usuario, u_password ) VALUES (?, ?);";
 		try {
 			jdbcTemplate.update(query, new Object[]{user.getUser_id(), user.getUser_pass()});
 			logger.info("Insercion correcta de: "+user.getUser_id());
@@ -37,7 +37,7 @@ public class UsersDAOImplement implements UsersDAO{
 	@Override
 	public List<Users> getAllUsers() {
 		logger.info("Obteniendo todos los usuarios en el dao");
-		String query = "SELECT user_id FROM users;";
+		String query = "SELECT id_usuario FROM usuarios;";
 		List<Users> allTokens = new ArrayList<Users>();
 		try {
 			allTokens = jdbcTemplate.query(query, new UserMapper());
@@ -51,7 +51,7 @@ public class UsersDAOImplement implements UsersDAO{
 	@Override
 	public Users getUserById(String id) {
 		logger.info("Obteniendo el Usuario por el id en el dao");
-		String query = "SELECT * FROM users WHERE user_id = ?;";
+		String query = "SELECT * FROM usuarios WHERE id_usuario = ?;";
 		
 		try {
 			Users usuario = jdbcTemplate.queryForObject(query, new Object[]{id}, new UserMapper());
@@ -65,7 +65,7 @@ public class UsersDAOImplement implements UsersDAO{
 	@Override
 	public Users loginUser(String userName, String password) {
 		logger.info("entra en el dao loginUSER");
-		String query = "SELECT * FROM users WHERE user_id = ? and user_pass = ?;";
+		String query = "SELECT * FROM usuarios WHERE id_usuario = ? and u_password = ?;";
 		try {
 			Users userLogin = jdbcTemplate.queryForObject(query, new Object[] { userName, password },
 					new UserMapper());
