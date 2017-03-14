@@ -1,4 +1,4 @@
-
+drop database if exists calius;
 create database if not exists calius;
 use calius;
 
@@ -49,8 +49,15 @@ create table notificaciones(
     n_asunto varchar(255),
 primary key(id_notificacion));
 
+create table administrativos(
+	id_administrativo varchar(10),
+    ad_nombre varchar (150),
+    ad_puesto varchar (30),
+primary key (id_administrativo));
+
 
 alter table usuarios add foreign key (id_usuario) references  alumnos(a_matricula) on delete cascade;
+alter table usuarios add foreign key (id_usuario) references  administrativos(id_administrativo) on delete cascade;
 alter table notificaciones add foreign key (n_remitente) references  usuarios(id_usuario) on delete cascade;
 alter table calificaciones add foreign key (c_matricula) references  alumnos(a_matricula) on delete cascade;
 alter table calificaciones add foreign key (c_id_materia) references  materias(id_materia) on delete cascade;
