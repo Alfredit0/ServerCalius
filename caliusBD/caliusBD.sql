@@ -2,65 +2,75 @@ drop database if exists calius;
 create database if not exists calius;
 use calius;
 
+drop table if exists alumnos;
 create table alumnos(
-	a_matricula varchar(10),
-    a_nombre varchar(30),
-    a_ap varchar(30),
-    a_am varchar (30),
-    a_lic varchar (10),
-    a_grupo varchar (5),
-    a_sem int,
-    a_periodo varchar (6),
-primary key(a_matricula));
+	alumnoMatricula varchar(10),
+    alumnoNombre varchar(30),
+    alumnoAp varchar(30),
+    alumnoAm varchar (30),
+    alumnoLic varchar (10),
+    alumnoGrupo varchar (5),
+    alumnoSem int,
+    alumnoPeriodo varchar (6),
+primary key(alumnoMatricula));
 
+drop table if exists calificaciones;
 create table calificaciones(
-	c_matricula varchar(10),
-    c_id_materia varchar(10),
-    c_periodo varchar(6),
-    c_parcial1 float,
-    c_parcial2 float,
-    c_parcial3 float,
-    c_proparcial float,
-    c_ordinario float,
-    c_final float,
-    c_extra1 float,
-    c_extra2 float,
-    c_especial float,
-primary key(c_matricula, c_id_materia, c_periodo));
+	cAlumnoMatricula varchar(10),
+    cMateriaId varchar(10),
+    cPeriodo varchar(6),
+    cParcial1 float,
+    cParcial2 float,
+    cParcial3 float,
+    cOrdinario float,
+    cFinal float,
+    cExtra1 float,
+    cExtra2 float,
+    cEspecial float,
+primary key(cAlumnoMatricula, cMateriaId, cPeriodo));
 
+drop table if exists materias;
 create table materias(
-	id_materia varchar(10),
-    m_nombre varchar(30),
-    m_lic varchar(10),
-    m_sem int,
-primary key(id_materia, m_lic));
+	materiaId varchar(10),
+    materiaNombre varchar(30),
+    materiaLic varchar(10),
+    materiaSem int,
+primary key(materiaId, materiaLic));
 
+drop table if exists usuarios;
 create table usuarios(
-	id_usuario varchar(10),
-    u_password varchar(45),
-primary key (id_usuario));
+	usuarioId varchar(10),
+	usuarioTelefono varchar(10),
+	usuarioIdGcm varchar(255),
+    usuarioPassword varchar(45),
+primary key (usuarioId));
 
+drop table if exists notificaciones;
 create table notificaciones(
-	id_notificacion int auto_increment,
-    n_remitente varchar(10),
-    n_destinatario varchar(20),
-    n_mensaje  longtext,
-    n_fecha date,
-    n_asunto varchar(255),
-primary key(id_notificacion));
+	notifId int auto_increment,
+    notifRemitente varchar(10),
+    notifDstinatario varchar(20),
+    notifMensaje  longtext,
+    notifFecha date,
+    notifAsunto varchar(255),
+primary key(notifId));
 
+drop table if exists administrativos;
 create table administrativos(
-	id_administrativo varchar(10),
-    ad_nombre varchar (150),
-    ad_puesto varchar (30),
-primary key (id_administrativo));
+	adminId varchar(10),
+    adminNombre varchar (150),
+    adminPuesto varchar (30),
+primary key (adminId));
 
+drop table if exists usuariosTemp;
+create table usuariosTemp(
+	usuarioId varchar(10),
+	usuarioTelefono varchar(10),
+    usuarioCodigo varchar(10),
+primary key (usuarioId));
 
-alter table usuarios add foreign key (id_usuario) references  alumnos(a_matricula) on delete cascade;
-alter table usuarios add foreign key (id_usuario) references  administrativos(id_administrativo) on delete cascade;
-alter table notificaciones add foreign key (n_remitente) references  usuarios(id_usuario) on delete cascade;
-alter table calificaciones add foreign key (c_matricula) references  alumnos(a_matricula) on delete cascade;
-alter table calificaciones add foreign key (c_id_materia) references  materias(id_materia) on delete cascade;
-
-
-    
+alter table usuarios add foreign key (usuarioId) references  alumnos(alumnoMatricula) on delete cascade;
+alter table usuarios add foreign key (usuarioId) references  administrativos(adminId) on delete cascade;
+alter table notificaciones add foreign key (notifRemitente) references  usuarios(usuarioId) on delete cascade;
+alter table calificaciones add foreign key (cAlumnoMatricula) references  alumnos(alumnoMatricula) on delete cascade;
+alter table calificaciones add foreign key (cMateriaId) references  materias(materiaId) on delete cascade;
