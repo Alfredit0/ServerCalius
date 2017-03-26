@@ -75,7 +75,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		String formattedDate = dateFormat.format(date);
 
 		model.addAttribute("serverTime", formattedDate );
-		model.addAttribute("matricula", p.getUser_id());
+		//model.addAttribute("matricula", p.getUser_id());
 
 		return "home";
 	}

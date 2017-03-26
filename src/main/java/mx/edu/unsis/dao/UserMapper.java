@@ -13,8 +13,8 @@ public class UserMapper implements RowMapper<Users>{
 	public Users mapRow(ResultSet rs, int rowNum) throws SQLException {
 		// TODO Auto-generated method stub
 		Users obj =new Users();
-		obj.setUser_id(rs.getString("id_usuario"));
-		obj.setUser_pass(rs.getString("u_password"));
+		//obj.setUser_id(rs.getString("id_usuario"));
+		//obj.setUser_pass(rs.getString("u_password"));
 		return obj;
 	}
 

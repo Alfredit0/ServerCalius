@@ -27,8 +27,7 @@ public class UsersDAOImplement implements UsersDAO{
 	public void insertUser(Users user) {
 		String query = "INSERT INTO usuarios (id_usuario, u_password ) VALUES (?, ?);";
 		try {
-			jdbcTemplate.update(query, new Object[]{user.getUser_id(), user.getUser_pass()});
-			logger.info("Insercion correcta de: "+user.getUser_id());
+			//jdbcTemplate.update(query, new Object[]{user.getUser_id(), user.getUser_pass()});
 		} catch (Exception e) {
 			logger.info("Error al insertar: " + e);
 		}		
