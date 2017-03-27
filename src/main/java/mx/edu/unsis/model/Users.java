@@ -1,22 +1,45 @@
 package mx.edu.unsis.model;
 
 public class Users {
-	private String user_id;
-	private String user_pass;
+	private String usuarioId;
+	private String usuarioTelefono;
+	private String usuarioIdGcm;
+	private String usuarioPassword;
+	
 	public Users(){
 		
 	}
-	public String getUser_id() {
-		return user_id;
+
+	public String getUsuarioId() {
+		return usuarioId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+
+	public void setUsuarioId(String usuarioId) {
+		this.usuarioId = usuarioId;
 	}
-	public String getUser_pass() {
-		return user_pass;
+
+	public String getUsuarioTelefono() {
+		return usuarioTelefono;
 	}
-	public void setUser_pass(String user_pass) {
-		this.user_pass = user_pass;
+
+	public void setUsuarioTelefono(String usuarioTelefono) {
+		this.usuarioTelefono = usuarioTelefono;
+	}
+
+	public String getUsuarioIdGcm() {
+		return usuarioIdGcm;
+	}
+
+	public void setUsuarioIdGcm(String usuarioIdGcm) {
+		this.usuarioIdGcm = usuarioIdGcm;
+	}
+
+	public String getUsuarioPassword() {
+		return usuarioPassword;
+	}
+
+	public void setUsuarioPassword(String usuarioPassword) {
+		this.usuarioPassword = usuarioPassword;
 	}
 	
 }
