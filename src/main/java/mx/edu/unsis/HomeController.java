@@ -66,7 +66,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		Users p = this.usv.getUserById("2013060024");
+		//Users p = this.usv.getUserById("2013060024");
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
@@ -75,7 +75,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		String formattedDate = dateFormat.format(date);
 
 		model.addAttribute("serverTime", formattedDate );
-		model.addAttribute("matricula", p.getUser_id());
+		model.addAttribute("matricula", "2013060024");
 
 		return "home";
 	}
@@ -87,9 +87,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 			) throws IOException{
 
 		logger.info("************ENTRANDO AL METODO DE LOGIN*********************");
-		ResponseVo res = new ResponseVo();
-
-		Users p = this.usv.getUserById("2013060024");				
+		ResponseVo res = new ResponseVo();		
 
 		if(!"12345".equals(req.getPassword())){
 			res.setsuccessPassword(false);
@@ -157,7 +155,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
-		String mensaje ="Hola mundo";
+		String mensaje = req.getPassword();
 		//Se lee el identificador de registro guardado previamente a traves del servicio REST
 		String idRegistro=recuperarIdRegistro();
 		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
