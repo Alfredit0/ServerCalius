@@ -3,7 +3,6 @@ package mx.edu.unsis.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import mx.edu.unsis.dao.UsuarioDAO;
 import mx.edu.unsis.model.Usuarios;

@@ -69,8 +69,8 @@ create table usuariosTemp(
     usuarioCodigo varchar(10),
 primary key (usuarioId));
 
-alter table usuarios add foreign key (usuarioId) references  alumnos(alumnoMatricula) on delete cascade;
-alter table usuarios add foreign key (usuarioId) references  administrativos(adminId) on delete cascade;
+-- alter table usuarios add foreign key (usuarioId) references  alumnos(alumnoMatricula) on delete cascade;
+-- alter table usuarios add foreign key (usuarioId) references  administrativos(adminId) on delete cascade;
 alter table notificaciones add foreign key (notifRemitente) references  usuarios(usuarioId) on delete cascade;
 alter table calificaciones add foreign key (cAlumnoMatricula) references  alumnos(alumnoMatricula) on delete cascade;
 alter table calificaciones add foreign key (cMateriaId) references  materias(materiaId) on delete cascade;

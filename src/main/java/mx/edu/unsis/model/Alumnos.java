@@ -1,10 +1,12 @@
 package mx.edu.unsis.model;
 
-/**	
- * Esta clase se usa para el mapeo con la tabla alumnos de la base de datos de la aplicación
+// TODO: Auto-generated Javadoc
+/**
+ * 	
+ * Esta clase se usa para el mapeo con la tabla alumnos de la base de datos de la aplicación.
+ *
  * @author: Vicente Mendoza
  * @version: 22/03/2017
- * 
  */
 
 public class Alumnos {
@@ -182,6 +184,21 @@ public class Alumnos {
 	 */
 	public void setAlumnoPeriodo(String alumnoPeriodo) {
 		this.alumnoPeriodo = alumnoPeriodo;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString(){
+		return "\nAlumnos: "
+				+ "\n alumnoMatricula: " + this.alumnoMatricula
+				+ "\n alumnoNombre: " + this.alumnoNombre
+				+ "\n alumnoAp: " + this.alumnoAp
+				+ "\n alumnoAm: " + this.alumnoAm
+				+ "\n alumnoLic: " + this.alumnoLic
+				+ "\n alumnoGrupo: " + this.alumnoGrupo
+				+ "\n alumnoSemestre: " + this.alumnoSem
+				+ "\n alumnoPeriodo: " + this.alumnoPeriodo;
 	}
 	
 }
