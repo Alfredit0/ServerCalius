@@ -1,10 +1,12 @@
 package mx.edu.unsis.model;
 
-/**	
- * Esta clase se usa para el mapeo con la tabla usuarios de la base de datos de la aplicación
+// TODO: Auto-generated Javadoc
+/**
+ * 	
+ * Esta clase se usa para el mapeo con la tabla usuarios de la base de datos de la aplicación.
+ *
  * @author: Vicente Mendoza
  * @version: 22/03/2017
- * 
  */
 public class Usuarios {
 	
@@ -99,6 +101,9 @@ public class Usuarios {
 		this.usuarioPassword = usuarioPassword;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString(){
 		return "\nusuarioId: "+this.usuarioId+
 				"\nusuarioPassword: "+this.usuarioPassword+

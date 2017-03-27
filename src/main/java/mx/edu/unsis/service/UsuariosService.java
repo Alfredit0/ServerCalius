@@ -1,31 +1,24 @@
-package mx.edu.unsis.dao;
+package mx.edu.unsis.service;
 
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import mx.edu.unsis.model.Usuarios;
 
-// TODO: Auto-generated Javadoc
+//TODO: Auto-generated Javadoc
 /**
- * 	
- * Interfaz que provee los metodos DAO para la tabla usuarios de la base de datos.
- *
- * @author: Vicente Mendoza
- * @version: 24/03/2017
- */
-@Repository
-public interface UsuarioDAO {
-	
-	/**
-	 * Sets the data source.
-	 *
-	 * @param dataSource the new data source
-	 */
-	public void setDataSource(DataSource dataSource);
-	
+* 	
+* Interfaz que provee el servicio de los metodos para la tabla usuarios de la base de datos.
+*
+* @author: Vicente Mendoza
+* @version: 26/03/2017
+*/
+@Service
+public interface UsuariosService {
+		
 	/**
 	 * Insert usuario.
 	 *
