@@ -253,4 +253,22 @@ public class Calificaciones {
 		this.cEspecial = cEspecial;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString(){
+		return "\n Calificaciones: "
+				+ "\n cAlumnoMatricula: " +this.cAlumnoMatricula
+				+ "\n cEspecial: " +this.cEspecial
+				+ "\n cExtra1: " +this.cExtra1
+				+ "\n cExtra2: " +this.cExtra2
+				+ "\n cFinal: " +this.cFinal
+				+ "\n cMateriaId: " +this.cMateriaId
+				+ "\n cOrdinario: " +this.cOrdinario
+				+ "\n cParcial1: " +this.cParcial1
+				+ "\n cParcial2: " +this.cParcial2
+				+ "\n cParcial3: " +this.cParcial3
+				+ "\n cPeriodo: " +this.cPeriodo;
+	}
+	
 }
