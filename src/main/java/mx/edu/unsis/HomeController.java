@@ -33,11 +33,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import mx.edu.unsis.ResponseVo;
+import mx.edu.unsis.dao.UsuarioDAO;
 import mx.edu.unsis.RequestVo;
 
-import mx.edu.unsis.model.Users;
-
-import mx.edu.unsis.service.UserService;
+import mx.edu.unsis.model.Usuarios;
 
 /**
  * Handles requests for the application home page.
@@ -46,7 +45,7 @@ import mx.edu.unsis.service.UserService;
 public class HomeController extends WebMvcConfigurerAdapter{
 
 	@Autowired
-	private UserService usv;
+	private UsuarioDAO usv;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -66,7 +65,18 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		//Users p = this.usv.getUserById("2013060024");
+
+		Usuarios u = new Usuarios();
+		u.setUsuarioId("2013060015");
+		u.setUsuarioIdGcm("125");
+		u.setUsuarioPassword("admin123");
+		u.setUsuarioTelefono("9512197933");
+		this.usv.insertUsuario(u);
+		this.usv.getUsuarioById(u.getUsuarioId());
+		u.setUsuarioIdGcm("111");
+		this.usv.updateUsuario(u);
+		this.usv.getAllUsers();
+		this.usv.loginUser(u.getUsuarioId(), u.getUsuarioPassword());
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
@@ -75,7 +85,9 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		String formattedDate = dateFormat.format(date);
 
 		model.addAttribute("serverTime", formattedDate );
-		model.addAttribute("matricula", "2013060024");
+
+		//model.addAttribute("matricula", p.getUser_id());
+
 
 		return "home";
 	}
@@ -87,7 +99,12 @@ public class HomeController extends WebMvcConfigurerAdapter{
 			) throws IOException{
 
 		logger.info("************ENTRANDO AL METODO DE LOGIN*********************");
-		ResponseVo res = new ResponseVo();		
+	
+
+		ResponseVo res = new ResponseVo();
+
+		Usuarios p = this.usv.getUsuarioById("2013060024");				
+
 
 		if(!"12345".equals(req.getPassword())){
 			res.setsuccessPassword(false);
