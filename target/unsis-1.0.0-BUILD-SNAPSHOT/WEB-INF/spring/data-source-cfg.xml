@@ -7,8 +7,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
-	<beans:bean id="userDao" class="mx.edu.unsis.dao.UsersDAOImplement"></beans:bean>
-	<beans:bean id="userService" class="mx.edu.unsis.service.UserServiceImpl"></beans:bean>
+	<beans:bean id="userDao" class="mx.edu.unsis.dao.UsuarioDAOImplement"></beans:bean>
+	<beans:bean id="userService" class="mx.edu.unsis.service.UsuariosServiceImplement"></beans:bean>
 	 
 	<context:property-placeholder location="classpath:jdbc.properties"/>
 	

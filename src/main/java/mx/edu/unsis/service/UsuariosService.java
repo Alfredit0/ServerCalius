@@ -2,13 +2,10 @@ package mx.edu.unsis.service;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.stereotype.Service;
 
 import mx.edu.unsis.model.Usuarios;
 
-//TODO: Auto-generated Javadoc
 /**
 * 	
 * Interfaz que provee el servicio de los metodos para la tabla usuarios de la base de datos.
