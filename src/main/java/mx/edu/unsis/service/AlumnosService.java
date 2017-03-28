@@ -3,7 +3,13 @@ package mx.edu.unsis.service;
 import java.util.List;
 
 import mx.edu.unsis.model.Alumnos;
-
+/**
+ * 	
+ * clase que implementa el servicio de los métodos para la coneccion con la base de datos de la tabla alumnos.
+ *
+ * @author: Vicente Mendoza
+ * @version: 26/03/2017
+ */
 public interface AlumnosService {
 	/**
 	 * Insert alumno.
