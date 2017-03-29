@@ -10,9 +10,6 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
-<<<<<<< HEAD
-=======
 <P>  Datos del usuario ${matricula}. </P>
->>>>>>> origin/master
 </body>
 </html>
