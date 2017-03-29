@@ -2,6 +2,8 @@ package mx.edu.unsis.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import mx.edu.unsis.model.Alumnos;
 /**
  * 	
@@ -10,6 +12,7 @@ import mx.edu.unsis.model.Alumnos;
  * @author: Vicente Mendoza
  * @version: 26/03/2017
  */
+@Service
 public interface AlumnosService {
 	/**
 	 * Insert alumno.
