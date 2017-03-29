@@ -213,6 +213,58 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	}	
 
 	/**
+	 * SERVICIO PARA EL ENVIO DE NOTIFICACIONES v2.0
+	 */
+	@RequestMapping(value = "/sendnotifications", method = RequestMethod.POST)
+	public @ResponseBody ResponseNotification sendnotifications(
+			HttpServletResponse response, 
+			@RequestBody RequestNotification req
+			) throws IOException{
+
+		logger.info("************ENTRANDO AL METODO DE ENVIAR NOTIFICATION*********************");
+
+
+		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
+		String mensaje = req.getMensaje();
+		//Se lee el identificador de registro guardado previamente a traves del servicio REST
+		String idRegistro=recuperarIdRegistro();
+		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
+		JsonObject jsonObject = new JsonObject();
+		JsonObject data = new JsonObject();
+		data.addProperty("mensaje",mensaje);
+		JsonArray registration_ids = new JsonArray();
+		registration_ids.add(new JsonPrimitive(idRegistro));
+		/*
+		 * Por convención el objeto Json tendrá como mínimo los siguientes atributos "data" y "registration_ids" 
+		 * aunque hay muchos otros atributos que son opcionales. En este ejemplo solo se pasa por parametro un único identificador
+		 * de registro pero como pueden ser mas de uno estos se encapsulan en un array de identifiacdores de registro, con 
+		 * lo que es posible mandar una misma notificación a multiples dispositivos Android
+		 */
+		jsonObject.add("data",data);
+		jsonObject.add("registration_ids",registration_ids);
+		//Justo en la siguiente linea de codigo se invoca el servicio GCM de envio de notificaciones 
+		//y este nos devuelve una respuesta de confirmación
+		String respuesta = invocarServicioGCM(jsonObject.toString(),new URL(URL_GOOGLE_CLOUD_MESSAGE),API_KEY);
+
+		//Se almacena el mensaje de la notificación en el contexto de request para luego poder mostrarlo en la JSP de confirmación
+
+		//Por ultimo redirigimos hacia la jsp que visualiza la confirmación del envio de la notificacion
+
+
+
+		// Retorno de valores x
+		ResponseNotification res = new ResponseNotification();
+		res.setStatuscon(true);
+		res.setProcstatus(true);
+		res.setTotalenviados(1);		
+
+		response.setContentType("application/json");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+		return res;
+	}	
+
+	/**
 	 * Metodo que permite recuperar el identificador de registro que asido previamente guardado   en registration-id.txt por el
 	 * servicio REST implementado por la clase RegisterIdService.
 	 * @return Devuelve el identificador de registro
