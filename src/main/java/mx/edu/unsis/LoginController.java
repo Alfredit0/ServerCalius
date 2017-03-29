@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.JsonObject;
 
@@ -34,7 +35,7 @@ public class LoginController {
     private static final Logger Logger = LoggerFactory.getLogger(LoginController.class);
     
     @RequestMapping(value = "/loginuser",method = RequestMethod.POST)
-    public JsonObject loginUser(Model model, HttpServletResponse response, @RequestBody LoginUser request){
+    public @ResponseBody String loginUser(Model model, HttpServletResponse response, @RequestBody LoginUser request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
 	        Usuarios u = this.usv.loginUser(request.getIduser(),request.getPassword());
@@ -54,11 +55,11 @@ public class LoginController {
 	    response.setContentType("application/json");
 	    response.setHeader("Access-Control-Allow-Origin","*");
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
-	    return r;
+	    return r.toString();
     }
     
     @RequestMapping(value = "/adduser",method = RequestMethod.POST)
-    public JsonObject AddUser(Model model, HttpServletResponse response, @RequestBody AddUser request){
+    public @ResponseBody String AddUser(Model model, HttpServletResponse response, @RequestBody AddUser request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
 	        Usuarios u = new Usuarios();
@@ -86,11 +87,11 @@ public class LoginController {
 	    response.setContentType("application/json");
 	    response.setHeader("Access-Control-Allow-Origin","*");
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
-	    return r;
+	    return r.toString();
 	}
     
     @RequestMapping(value = "/verifyusercode",method = RequestMethod.POST)
-    public JsonObject VerifyUserCode(Model model, HttpServletResponse response, @RequestBody VerifyUserCode request){
+    public @ResponseBody String VerifyUserCode(Model model, HttpServletResponse response, @RequestBody VerifyUserCode request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
 	        /*Usuarios u = this.usv.verifyUserCode(request.getIduser(),request.getCode());
@@ -110,11 +111,11 @@ public class LoginController {
 	    response.setContentType("application/json");
 	    response.setHeader("Access-Control-Allow-Origin","*");
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
-	    return r;
+	    return r.toString();
 	}
     
     @RequestMapping(value = "/saveuserpass",method = RequestMethod.POST)
-    public JsonObject SaveUserPass(Model model, HttpServletResponse response, @RequestBody SaveUserPass request){
+    public @ResponseBody String SaveUserPass(Model model, HttpServletResponse response, @RequestBody SaveUserPass request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
 	        /*Usuarios u = this.usv.saveUserPass(request.getIduser(),request.getPassword());
@@ -134,6 +135,6 @@ public class LoginController {
 	    response.setContentType("application/json");
 	    response.setHeader("Access-Control-Allow-Origin","*");
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
-	    return r;
+	    return r.toString();
 	}
 }
