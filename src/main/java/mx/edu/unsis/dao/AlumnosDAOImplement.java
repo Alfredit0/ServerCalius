@@ -55,7 +55,7 @@ public class AlumnosDAOImplement implements AlumnosDAO{
 			logger.info("El alumno fue eliminado correctamente.");
 			return true;
 		} catch (Exception e) {
-			logger.info("Error al actualizar: " + e);
+			logger.info("Error al eliminar: " + e);
 			return false;
 		}
 	}

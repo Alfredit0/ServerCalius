@@ -1,10 +1,12 @@
 package mx.edu.unsis.model;
 
-/**	
- * Esta clase se usa para el mapeo con la tabla notificaciones de la base de datos de la aplicación
+// TODO: Auto-generated Javadoc
+/**
+ * 	
+ * Esta clase se usa para el mapeo con la tabla notificaciones de la base de datos de la aplicación.
+ *
  * @author: Vicente Mendoza
  * @version: 22/03/2017
- * 
  */
 
 public class Notificaciones {
@@ -142,5 +144,16 @@ public class Notificaciones {
 		this.notifAsunto = notifAsunto;
 	}
 	
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString(){
+		return "\n Notificaciones:"
+				+ "\n notifAsunto: " + this.notifAsunto
+				+ "\n notifDestinatario: " + this.notifAsunto
+				+ "\n notifFecha: " + this.notifAsunto
+				+ "\n notifId: " + this.notifAsunto
+				+ "\n notifMensaje: " + this.notifAsunto
+				+ "\n notifRemitente: " + this.notifAsunto;
+	}
 }

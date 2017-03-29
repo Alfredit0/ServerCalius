@@ -82,4 +82,14 @@ public class Administrativos {
 	public void setAdminPuesto(String adminPuesto) {
 		this.adminPuesto = adminPuesto;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString(){
+		return "\n Administrativos: "
+				+ "\n adminId: " +this.adminId
+				+ "\n adminNombre: " +this.adminNombre
+				+ "\n adminPuesto: " +this.adminPuesto;
+	}
 }

@@ -100,4 +100,15 @@ public class Materias {
 		this.materiaSem = materiaSem;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString(){
+		return "\n Materias:"
+				+ "\n materiaId: " +this.materiaId
+				+ "\n materiaLic: " +this.materiaLic
+				+ "\n materiaNombre: " +this.materiaNombre
+				+ "\n materiaSem: " +this.materiaSem;
+	}
+	
 }
