@@ -22,6 +22,8 @@ public class Usuarios {
 	/** The usuario password. */
 	private String usuarioPassword;
 	
+	private int usuarioTipo;
+	
 	/**
 	 * Instantiates a new usuarios.
 	 */
@@ -107,7 +109,16 @@ public class Usuarios {
 	public String toString(){
 		return "\nusuarioId: "+this.usuarioId+
 				"\nusuarioPassword: "+this.usuarioPassword+
-				"\nusuarioTelefono: "+this.usuarioIdGcm+
-				"\nusuarioIdGcm: "+this.getUsuarioIdGcm();
+				"\nusuarioTelefono: "+this.usuarioTelefono+
+				"\nusuarioIdGcm: "+this.usuarioIdGcm+
+				"\nusuarioTipo: "+this.usuarioTipo;
+	}
+
+	public int getUsuarioTipo() {
+		return usuarioTipo;
+	}
+
+	public void setUsuarioTipo(int usuarioTipo) {
+		this.usuarioTipo = usuarioTipo;
 	}
 }

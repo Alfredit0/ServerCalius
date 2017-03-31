@@ -43,6 +43,7 @@ create table usuarios(
 	usuarioTelefono varchar(10),
 	usuarioIdGcm varchar(255),
     usuarioPassword varchar(45),
+    usuarioTipo int,
 primary key (usuarioId));
 
 drop table if exists notificaciones;
@@ -74,3 +75,14 @@ primary key (usuarioId));
 alter table notificaciones add foreign key (notifRemitente) references  usuarios(usuarioId) on delete cascade;
 alter table calificaciones add foreign key (cAlumnoMatricula) references  alumnos(alumnoMatricula) on delete cascade;
 alter table calificaciones add foreign key (cMateriaId) references  materias(materiaId) on delete cascade;
+
+
+-- Alta Alumnos
+insert into alumnos values("2013060024", "Benito Alfredo", "Reyes", "Hernandez", "LCI", "806", 8, "2017-A");
+insert into alumnos values("2013060012", "Minerva", "Martinez", "Rios", "LCI", "806", 8, "2017-A");
+
+-- Alta Administrativos
+insert into Administrativos values("3256", "Gabriela Garcia", "Jefa Servicios Escolares");
+
+-- Alta usuario
+insert into usuarios values("2013060024", "9581168329", "APA91bFIS5FRUlV4ahhq2nB5DCJpoCClAJBQJ_cDwOwO0RAx-PHDxsQ2PrZwhHIej-8uhBjP-Rx5g2fzRY9qTUn9J2aQQkJ2AWslbRliDeu4zPBxmMaEXReRvaVdCXumctYH4AQsZ8IeEr_LezrxNjYptI9JYD4MeA", "caliuspass",1);

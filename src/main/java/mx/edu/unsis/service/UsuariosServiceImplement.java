@@ -22,13 +22,13 @@ public class UsuariosServiceImplement implements UsuariosService{
 	private UsuarioDAO u;
 	
 	@Override
-	public void insertUsuario(Usuarios u) {
-		this.u.insertUsuario(u);
+	public boolean insertUsuario(Usuarios u) {
+		return this.u.insertUsuario(u);
 	}
 
 	@Override
-	public void updateUsuario(Usuarios u) {
-		this.u.updateUsuario(u);
+	public boolean updateUsuario(Usuarios u) {
+		return this.u.updateUsuario(u);
 	}
 
 	@Override
