@@ -103,12 +103,12 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 	}
 
 	@Override
-	public Usuarios loginUser(String userName, String password) {
-		String query = "SELECT * FROM usuarios WHERE usuarioId = ? and usuarioPassword = ?;";
+	public Usuarios loginUser(String userName, String password, int usuarioTipo) {
+		String query = "SELECT * FROM usuarios WHERE usuarioId = ? and usuarioPassword = ? and usuarioTipo = ?;";
 		try {
 			Usuarios userLogin = jdbcTemplate.queryForObject(
 					query, 
-					new Object[] { userName, password },
+					new Object[] { userName, password, usuarioTipo },
 					new RowMapper<Usuarios>() {
 			            public Usuarios mapRow(ResultSet rs, int rowNum) throws SQLException {
 			                Usuarios usuarios = new Usuarios();

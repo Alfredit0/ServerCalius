@@ -76,7 +76,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		u.setUsuarioIdGcm("111");
 		this.usv.updateUsuario(u);
 		this.usv.getAllUsers();
-		this.usv.loginUser(u.getUsuarioId(), u.getUsuarioPassword());
+		this.usv.loginUser(u.getUsuarioId(), u.getUsuarioPassword(), 2);
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();

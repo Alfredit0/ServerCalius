@@ -38,7 +38,7 @@ public class LoginController {
     public @ResponseBody String loginUser(Model model, HttpServletResponse response, @RequestBody LoginUser request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
-	        Usuarios u = this.usv.loginUser(request.getIduser(),request.getPassword());
+	        Usuarios u = this.usv.loginUser(request.getIduser(),request.getPassword(), 2);
 	        if(u==null){
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", false);

@@ -42,8 +42,8 @@ public class UsuariosServiceImplement implements UsuariosService{
 	}
 
 	@Override
-	public Usuarios loginUser(String userName, String password) {
-		return this.u.loginUser(userName, password);
+	public Usuarios loginUser(String userName, String password, int usuarioTipo) {
+		return this.u.loginUser(userName, password, usuarioTipo);
 	}
 
 }
