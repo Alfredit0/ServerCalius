@@ -19,14 +19,14 @@ public interface AlumnosService {
 	 *
 	 * @param a the a
 	 */
-	public void insertAlumno(Alumnos a);
+	public boolean insertAlumno(Alumnos a);
 	
 	/**
 	 * Update alumno.
 	 *
 	 * @param a the a
 	 */
-	public void updateAlumno(Alumnos a);
+	public boolean updateAlumno(Alumnos a);
 	
 	/**
 	 * Eliminar alumno.

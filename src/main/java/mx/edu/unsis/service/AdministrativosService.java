@@ -21,14 +21,14 @@ public interface AdministrativosService {
 	 *
 	 * @param a el objeto administrativo a insertar en la BD
 	 */
-	public void insertAlumno(Administrativos a);
+	public boolean insertAlumno(Administrativos a);
 	
 	/**
 	 * Update adminitrativo.
 	 *
 	 * @param a el objeto administrativos a eliminar
 	 */
-	public void updateAlumno(Administrativos a);
+	public boolean updateAlumno(Administrativos a);
 	
 	/**
 	 * Eliminar administrativo.

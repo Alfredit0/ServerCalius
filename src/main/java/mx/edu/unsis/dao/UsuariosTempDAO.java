@@ -31,7 +31,7 @@ public interface UsuariosTempDAO {
 	 * @param u el usuario a insertar
 	 * @return true, si la insercción se hizo de manera correcta, false en caso contrario
 	 */
-	boolean insertUsuarioTemp(UsuariosTemp u);
+	public boolean insertUsuarioTemp(UsuariosTemp u);
 	
 	/**
 	 * Update usuario.
@@ -39,7 +39,7 @@ public interface UsuariosTempDAO {
 	 * @param u el usuario a actualizar
 	 * @return true, si el usuario se actualizó correctamente, false en caso contrario
 	 */
-	boolean updateUsuariosTemp(UsuariosTemp u);
+	public boolean updateUsuariosTemp(UsuariosTemp u);
 	
 	/**
 	 * Eliminar usuario temp.
@@ -54,7 +54,7 @@ public interface UsuariosTempDAO {
 	 *
 	 * @return todos los usuarios dados de alta en la base de datos en la tabla usuariostemp
 	 */
-	List<UsuariosTemp> getAllUsers();
+	public List<UsuariosTemp> getAllUsers();
 	
 	/**
 	 * Gets the user by id.
@@ -62,7 +62,7 @@ public interface UsuariosTempDAO {
 	 * @param id el id del usuario que se desea buscar
 	 * @return el usuario que corresponda al ID
 	 */
-	UsuariosTemp getUsuarioTempById(String id);
+	public UsuariosTemp getUsuarioTempById(String id);
 	
 	/**
 	 * Verificar codigo usuario. Verifica que el codigo del usuario coincida con el que se le envió a su telefono
@@ -71,5 +71,5 @@ public interface UsuariosTempDAO {
 	 * @param code el código que envió el usuario
 	 * @return true, si el código coincide con el que está en la base de datos, false en caso contraro
 	 */
-	boolean verificarCodigoUsuario(String usuarioId, String code);
+	public boolean verificarCodigoUsuario(String usuarioId, String code);
 }

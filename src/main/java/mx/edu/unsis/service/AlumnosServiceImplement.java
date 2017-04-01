@@ -24,16 +24,16 @@ public class AlumnosServiceImplement implements AlumnosService{
 	 * @see mx.edu.unsis.service.AlumnosService#insertAlumno(mx.edu.unsis.model.Alumnos)
 	 */
 	@Override
-	public void insertAlumno(Alumnos a) {
-		this.a.insertAlumno(a);
+	public boolean insertAlumno(Alumnos a) {
+		return this.a.insertAlumno(a);
 	}
 
 	/* (non-Javadoc)
 	 * @see mx.edu.unsis.service.AlumnosService#updateAlumno(mx.edu.unsis.model.Alumnos)
 	 */
 	@Override
-	public void updateAlumno(Alumnos a) {
-		this.updateAlumno(a);
+	public boolean updateAlumno(Alumnos a) {
+		return this.updateAlumno(a);
 	}
 
 	/* (non-Javadoc)

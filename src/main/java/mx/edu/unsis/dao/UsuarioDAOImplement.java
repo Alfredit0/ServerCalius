@@ -25,24 +25,28 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 	}
 
 	@Override
-	public void insertUsuario(Usuarios u) {
+	public boolean insertUsuario(Usuarios u) {
 		String query = "INSERT INTO usuarios (usuarioId, usuarioTelefono, usuarioIdGcm, usuarioPassword) VALUES (?, ?, ?, ?);";
 		try {
 			jdbcTemplate.update(query, new Object[]{u.getUsuarioId(), u.getUsuarioTelefono(), u.getUsuarioIdGcm(), u.getUsuarioPassword()});
 			logger.info("El usuario fue insertado correctamente. Datos del Usuario --> "+u);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al insertar: " + e);
+			return false;
 		}
 	}
 
 	@Override
-	public void updateUsuario(Usuarios u) {
+	public boolean updateUsuario(Usuarios u) {
 		String query = "update usuarios set usuarioTelefono = ?, usuarioPassword = ?, usuarioIdGcm = ? where usuarioId = ?;";
 		try {
 			jdbcTemplate.update(query, new Object[]{u.getUsuarioTelefono(), u.getUsuarioPassword(), u.getUsuarioIdGcm(), u.getUsuarioId()});
 			logger.info("El usuario fue actualizado correctamente. Datos del Usuario --> "+u);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al actualizar: " + e);
+			return false;
 		}
 	}
 

@@ -12,13 +12,13 @@ public class MateriasServiceImplement implements MateriasService{
 	private MateriasDAO a;
 	
 	@Override
-	public void insertMateria(Materias a) {
-		this.a.insertMateria(a);
+	public boolean insertMateria(Materias a) {
+		return this.a.insertMateria(a);
 	}
 
 	@Override
-	public void updateMaterias(Materias a) {
-		this.a.updateMaterias(a);
+	public boolean updateMaterias(Materias a) {
+		return this.a.updateMaterias(a);
 	}
 
 	@Override

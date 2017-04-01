@@ -27,24 +27,28 @@ public class MateriasDAOImplement implements MateriasDAO{
 	}
 
 	@Override
-	public void insertMateria(Materias a) {
+	public boolean insertMateria(Materias a) {
 		String query = "INSERT INTO materias (materiaId, materiaNombre, materiaLic, materiaSem) values (?, ?, ?, ?);";
 		try {
 			jdbcTemplate.update(query, new Object[]{a.getMateriaId(), a.getMateriaNombre(), a.getMateriaLic(), a.getMateriaSem()});
 			logger.info("La materia fue insertado correctamente. Datos de la materia --> "+a);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al insertar: " + e);
+			return false;
 		}
 	}
 
 	@Override
-	public void updateMaterias(Materias a) {
+	public boolean updateMaterias(Materias a) {
 		String query = "update materias set materiaNombre = ?, materiaLic = ?, materiaSem = ? where materiaId = ?;";
 		try {
 			jdbcTemplate.update(query, new Object[]{a.getMateriaNombre(), a.getMateriaLic(), a.getMateriaSem(), a.getMateriaId()});
 			logger.info("la materia fue actualizado correctamente. Datos de la materia --> "+a);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al actualizar: " + e);
+			return false;
 		}
 	}
 
