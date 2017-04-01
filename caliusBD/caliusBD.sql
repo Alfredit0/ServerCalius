@@ -43,6 +43,7 @@ create table usuarios(
 	usuarioTelefono varchar(10),
 	usuarioIdGcm varchar(255),
     usuarioPassword varchar(45),
+    usuarioTipo int,
 primary key (usuarioId));
 
 drop table if exists notificaciones;
