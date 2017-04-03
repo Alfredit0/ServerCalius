@@ -31,21 +31,21 @@ public interface UsuarioDAO {
 	 *
 	 * @param user the user
 	 */
-	void insertUsuario(Usuarios u);
+	public boolean insertUsuario(Usuarios u);
 	
 	/**
 	 * Update usuario.
 	 *
 	 * @param user el usuario a actualizar
 	 */
-	void updateUsuario(Usuarios u);
+	public boolean updateUsuario(Usuarios u);
 	
 	/**
 	 * Gets the all users.
 	 *
 	 * @return todos los usuarios dados de alta en la base de datos
 	 */
-	List<Usuarios> getAllUsers();
+	public List<Usuarios> getAllUsers();
 	
 	/**
 	 * Gets the user by id.
@@ -53,7 +53,7 @@ public interface UsuarioDAO {
 	 * @param id el id del usuario que se desea buscar
 	 * @return el usuario que corresponda al ID
 	 */
-	Usuarios getUsuarioById(String id);
+	public Usuarios getUsuarioById(String id);
 	
 	/**
 	 * Login user.
@@ -62,5 +62,5 @@ public interface UsuarioDAO {
 	 * @param password la contraseña del usuario
 	 * @return null en caso de que no existe la cuenta, y un objeto Usuario si el usuario ya esta dado de alta
 	 */
-	Usuarios loginUser(String userName, String password);
+	public Usuarios loginUser(String userName, String password, int usuarioTipo);
 }

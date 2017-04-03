@@ -26,24 +26,28 @@ public class AlumnosDAOImplement implements AlumnosDAO{
 	}
 
 	@Override
-	public void insertAlumno(Alumnos a) {
+	public boolean insertAlumno(Alumnos a) {
 		String query = "INSERT INTO alumnos (alumnoMatricula, alumnoNombre, alumnoAp, alumnoAm, alumnoLic, alumnoGrupo, alumnoSem, alumnoPeriodo) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 		try {
 			jdbcTemplate.update(query, new Object[]{a.getAlumnoMatricula(), a.getAlumnoNombre(), a.getAlumnoAp(), a.getAlumnoLic(), a.getAlumnoGrupo(), a.getAlumnoSem(), a.getAlumnoPeriodo()});
 			logger.info("El alumno fue insertado correctamente. Datos del alumno --> "+a);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al insertar: " + e);
+			return false;
 		}
 	}
 
 	@Override
-	public void updateAlumno(Alumnos a) {
+	public boolean updateAlumno(Alumnos a) {
 		String query = "update alumnos set alumnoNombre = ?, alumnoAp = ?, alumnoAm = ?, alumnoLic = ?, alumnoGrupo = ?, alumnoSem = ?, alumnoPeriodo = ? where alumnoMatricula = ?;";
 		try {
 			jdbcTemplate.update(query, new Object[]{ a.getAlumnoNombre(), a.getAlumnoAp(), a.getAlumnoLic(), a.getAlumnoGrupo(), a.getAlumnoSem(), a.getAlumnoPeriodo(), a.getAlumnoMatricula()});
 			logger.info("El alumno fue actualizado correctamente. Datos del alumno --> "+a);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al actualizar: " + e);
+			return false;
 		}
 	}
 

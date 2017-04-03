@@ -25,24 +25,28 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 	}
 
 	@Override
-	public void insertUsuario(Usuarios u) {
-		String query = "INSERT INTO usuarios (usuarioId, usuarioTelefono, usuarioIdGcm, usuarioPassword) VALUES (?, ?, ?, ?);";
+	public boolean insertUsuario(Usuarios u) {
+		String query = "INSERT INTO usuarios (usuarioId, usuarioTelefono, usuarioIdGcm, usuarioPassword, usuarioTipo) VALUES (?, ?, ?, ?, ?);";
 		try {
-			jdbcTemplate.update(query, new Object[]{u.getUsuarioId(), u.getUsuarioTelefono(), u.getUsuarioIdGcm(), u.getUsuarioPassword()});
+			jdbcTemplate.update(query, new Object[]{u.getUsuarioId(), u.getUsuarioTelefono(), u.getUsuarioIdGcm(), u.getUsuarioPassword(), u.getUsuarioTipo()});
 			logger.info("El usuario fue insertado correctamente. Datos del Usuario --> "+u);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al insertar: " + e);
+			return false;
 		}
 	}
 
 	@Override
-	public void updateUsuario(Usuarios u) {
-		String query = "update usuarios set usuarioTelefono = ?, usuarioPassword = ?, usuarioIdGcm = ? where usuarioId = ?;";
+	public boolean updateUsuario(Usuarios u) {
+		String query = "update usuarios set usuarioTelefono = ?, usuarioPassword = ?, usuarioIdGcm = ?, usuarioTipo = ? where usuarioId = ?;";
 		try {
-			jdbcTemplate.update(query, new Object[]{u.getUsuarioTelefono(), u.getUsuarioPassword(), u.getUsuarioIdGcm(), u.getUsuarioId()});
+			jdbcTemplate.update(query, new Object[]{u.getUsuarioTelefono(), u.getUsuarioPassword(), u.getUsuarioIdGcm(), u.getUsuarioId(), u.getUsuarioTipo()});
 			logger.info("El usuario fue actualizado correctamente. Datos del Usuario --> "+u);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al actualizar: " + e);
+			return false;
 		}
 	}
 
@@ -59,6 +63,7 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 			                usuarios.setUsuarioIdGcm(rs.getString("usuarioIdGcm"));
 			                usuarios.setUsuarioPassword(rs.getString("usuarioPassword"));
 			                usuarios.setUsuarioTelefono(rs.getString("usuarioTelefono"));
+			                usuarios.setUsuarioTipo(rs.getInt("usuarioTipo"));
 			                return usuarios;
 			            }
 			        });
@@ -85,6 +90,7 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 			                usuarios.setUsuarioIdGcm(rs.getString("usuarioIdGcm"));
 			                usuarios.setUsuarioPassword(rs.getString("usuarioPassword"));
 			                usuarios.setUsuarioTelefono(rs.getString("usuarioTelefono"));
+			                usuarios.setUsuarioTipo(rs.getInt("usuarioTipo"));
 			                return usuarios;
 			            }
 			        });
@@ -97,12 +103,12 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 	}
 
 	@Override
-	public Usuarios loginUser(String userName, String password) {
-		String query = "SELECT * FROM usuarios WHERE usuarioId = ? and usuarioPassword = ?;";
+	public Usuarios loginUser(String userName, String password, int usuarioTipo) {
+		String query = "SELECT * FROM usuarios WHERE usuarioId = ? and usuarioPassword = ? and usuarioTipo = ?;";
 		try {
 			Usuarios userLogin = jdbcTemplate.queryForObject(
 					query, 
-					new Object[] { userName, password },
+					new Object[] { userName, password, usuarioTipo },
 					new RowMapper<Usuarios>() {
 			            public Usuarios mapRow(ResultSet rs, int rowNum) throws SQLException {
 			                Usuarios usuarios = new Usuarios();
@@ -110,6 +116,7 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 			                usuarios.setUsuarioIdGcm(rs.getString("usuarioIdGcm"));
 			                usuarios.setUsuarioPassword(rs.getString("usuarioPassword"));
 			                usuarios.setUsuarioTelefono(rs.getString("usuarioTelefono"));
+			                usuarios.setUsuarioTipo(rs.getInt("usuarioTipo"));
 			                return usuarios;
 			            }
 			        });

@@ -26,24 +26,28 @@ public class AdministrativosDAOImplement implements AdministrativosDAO{
 	}
 
 	@Override
-	public void insertAdministrativo(Administrativos a) {
+	public boolean insertAdministrativo(Administrativos a) {
 		String query = "INSERT INTO administrativos (adminId, adminNombre, adminPuesto) values (?, ?, ?);";
 		try {
 			jdbcTemplate.update(query, new Object[]{a.getAdminId(), a.getAdminNombre(), a.getAdminPuesto()});
 			logger.info("El administrativo fue insertado correctamente. Datos del adminitrativo --> "+a);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al insertar: " + e);
+			return false;
 		}
 	}
 
 	@Override
-	public void updateAdministrativo(Administrativos a) {
+	public boolean updateAdministrativo(Administrativos a) {
 		String query = "update administrativos set adminNombre = ?, adminPuesto = ? where adminId = ?;";
 		try {
 			jdbcTemplate.update(query, new Object[]{ a.getAdminNombre(), a.getAdminPuesto(), a.getAdminId()});
 			logger.info("El administrador fue actualizado correctamente. Datos del administrador --> "+a);
+			return true;
 		} catch (Exception e) {
 			logger.info("Error al actualizar: " + e);
+			return false;
 		}
 	}
 

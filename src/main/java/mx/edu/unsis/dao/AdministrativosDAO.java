@@ -28,14 +28,14 @@ public interface AdministrativosDAO {
 	 *
 	 * @param a el objeto administrativo a insertar en la BD
 	 */
-	public void insertAdministrativo(Administrativos a);
+	public boolean insertAdministrativo(Administrativos a);
 	
 	/**
 	 * Update adminitrativo.
 	 *
 	 * @param a el objeto administrativos a eliminar
 	 */
-	public void updateAdministrativo(Administrativos a);
+	public boolean updateAdministrativo(Administrativos a);
 	
 	/**
 	 * Eliminar administrativo.

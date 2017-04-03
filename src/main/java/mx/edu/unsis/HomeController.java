@@ -65,7 +65,17 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-
+		Usuarios u = new Usuarios();
+		u.setUsuarioId("2013060015");
+		u.setUsuarioIdGcm("125");
+		u.setUsuarioPassword("admin123");
+		u.setUsuarioTelefono("9512197933");
+		this.usv.insertUsuario(u);
+		this.usv.getUsuarioById(u.getUsuarioId());
+		u.setUsuarioIdGcm("111");
+		this.usv.updateUsuario(u);
+		this.usv.getAllUsers();
+		this.usv.loginUser(u.getUsuarioId(), u.getUsuarioPassword(), 2);
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();

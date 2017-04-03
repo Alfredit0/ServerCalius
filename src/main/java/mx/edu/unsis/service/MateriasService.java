@@ -19,14 +19,14 @@ public interface MateriasService {
 	 *
 	 * @param a el objeto materia a insertar
 	 */
-	public void insertMateria(Materias a);
+	public boolean insertMateria(Materias a);
 	
 	/**
 	 * Update materia.
 	 *
 	 * @param a el objeto materia a actualizar
 	 */
-	public void updateMaterias(Materias a);
+	public boolean updateMaterias(Materias a);
 	
 	/**
 	 * Eliminar Materia.

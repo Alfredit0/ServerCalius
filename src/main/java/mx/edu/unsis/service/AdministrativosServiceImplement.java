@@ -13,13 +13,13 @@ public class AdministrativosServiceImplement implements AdministrativosService{
 	private AdministrativosDAO a;
 
 	@Override
-	public void insertAlumno(Administrativos a) {
-		this.a.insertAdministrativo(a);
+	public boolean insertAlumno(Administrativos a) {
+		return this.a.insertAdministrativo(a);
 	}
 
 	@Override
-	public void updateAlumno(Administrativos a) {
-		this.a.updateAdministrativo(a);
+	public boolean updateAlumno(Administrativos a) {
+		return this.a.updateAdministrativo(a);
 	}
 
 	@Override
