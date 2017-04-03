@@ -45,5 +45,14 @@ public class RequestNotification {
 		this.remitente = remitente;
 	}
 	
+	public String toString(){
+		return "\nAlumnos: "
+				+ "\n passcon: " + this.passcon
+				+ "\n asunto: " + this.asunto
+				+ "\n tipo: " + this.tipo
+				+ "\n destintario: " + this.destintario
+				+ "\n mensaje: " + this.mensaje
+				+ "\n remitente: " + this.remitente;
+	}
 
 }

@@ -56,7 +56,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	public static String URL_GOOGLE_CLOUD_MESSAGE="https://android.googleapis.com/gcm/send";
 
 	//La API_KEY se inicializa con el valor obtenido desde la api console 
-	public static String API_KEY="AIzaSyDJbDWIjqdcBGTxm0Xe798Rg9TyAKyNYGE";
+	public static String API_KEY="AIzaSyCjVbvarKSfCLXsnJzJ3OWDO4MeTStNVU0";
 
 	private static final long serialVersionUID = 1L;	
 
@@ -66,17 +66,6 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 
-		Usuarios u = new Usuarios();
-		u.setUsuarioId("2013060015");
-		u.setUsuarioIdGcm("125");
-		u.setUsuarioPassword("admin123");
-		u.setUsuarioTelefono("9512197933");
-		this.usv.insertUsuario(u);
-		this.usv.getUsuarioById(u.getUsuarioId());
-		u.setUsuarioIdGcm("111");
-		this.usv.updateUsuario(u);
-		this.usv.getAllUsers();
-		this.usv.loginUser(u.getUsuarioId(), u.getUsuarioPassword());
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
@@ -225,7 +214,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
-		String mensaje = req.getMensaje();
+		String mensaje ="Asunto: " + req.getAsunto() + " Mensaje: " +req.getMensaje();
 		//Se lee el identificador de registro guardado previamente a traves del servicio REST
 		String idRegistro=recuperarIdRegistro();
 		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
@@ -271,9 +260,9 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	 * @throws IOException
 	 */
 	private static final String recuperarIdRegistro() throws IOException{
-		BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(PATH)));
-		String registroId = bufferedReader.readLine();  
-		bufferedReader.close();   
+		//BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(PATH)));
+		String registroId ="APA91bFEVZ3BEfB2rAwfc7-eZ0mSvp0FhRON8XtP7BYqQwQ06sPtz8aLUQxwJielObYF7qHa-1bJpo5-oQuPK4iThfR9PKJE7W8layNMvIb60r1hjfZEjdiuUyLG5hTtiPWs23s1Nrb79HTlkMFiqlweivtSluwyvg";  
+		//bufferedReader.close();   
 		return registroId;
 	}
 
