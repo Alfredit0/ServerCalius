@@ -1,3 +1,11 @@
+/*
+	Script del esquema de la base de datos del proyecto Calius
+	Autores: Minerva Martinez Rios.
+			 Mirna Cecilia Jimenez Canseco.
+			 Benito Alfredo Reyes Hernandez.
+			 Vicente de Jesus Mendoza Bautista.
+	Fecha: 19/04/2017
+*/
 drop database if exists calius;
 create database if not exists calius;
 use calius;
@@ -32,7 +40,7 @@ primary key(cAlumnoMatricula, cMateriaId, cPeriodo));
 drop table if exists materias;
 create table materias(
 	materiaId varchar(10),
-    materiaNombre varchar(30),
+    materiaNombre varchar(255),
     materiaLic varchar(10),
     materiaSem int,
 primary key(materiaId, materiaLic));
