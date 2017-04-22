@@ -89,7 +89,7 @@ public class UsuariosTempDAOImplement implements UsuariosTempDAO{
 
 	@Override
 	public UsuariosTemp getUsuarioTempById(String id) {
-		String query = "select * from usuarios where usuarioId = ?";
+		String query = "select * from usuariostemp where usuarioId = ?";
 		try {
 			UsuariosTemp usuariostemps = this.jdbcTemplate.queryForObject(
 			        query,

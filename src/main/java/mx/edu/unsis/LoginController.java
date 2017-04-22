@@ -128,15 +128,23 @@ public class LoginController {
     public @ResponseBody String SaveUserPass(Model model, HttpServletResponse response, @RequestBody SaveUserPass request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
-	        /*Usuarios u = this.usv.saveUserPass(request.getIduser(),request.getPassword());
-	        if(u==null){
+	        UsuariosTemp ut = this.ustemp.getUsuarioTempById(request.getIduser());
+	        if(ut!=null){
+		        Usuarios u = new Usuarios(); 
+		        u.setUsuarioId(ut.getUsuarioId());
+		        u.setUsuarioIdGcm(null);
+		        u.setUsuarioPassword(request.getPassword());
+		        u.setUsuarioTelefono(ut.getUsuarioTelefono());
+		        u.setUsuarioTipo(1);
+		        this.usv.insertUsuario(u);
+		        this.ustemp.eliminarUsuarioTemp(ut.getUsuarioId());
 	            r.addProperty("statuscon", true);
-	            r.addProperty("status", false);
+	            r.addProperty("status", true);
 	        }else{
 	            
 	            r.addProperty("statuscon", true);
-	            r.addProperty("status", true);
-	        }*/
+	            r.addProperty("status", false);
+	        }
 	    }else{
 	        
 	            r.addProperty("statuscon", false);
