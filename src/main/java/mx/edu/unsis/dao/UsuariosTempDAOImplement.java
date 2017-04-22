@@ -113,7 +113,7 @@ public class UsuariosTempDAOImplement implements UsuariosTempDAO{
 
 	@Override
 	public boolean verificarCodigoUsuario(String usuarioId, String code) {
-		String query = "select * from usuarios where usuarioId = ?";
+		String query = "select * from usuariostemp where usuarioId = ?";
 		try {
 			UsuariosTemp usuariostemps = this.jdbcTemplate.queryForObject(
 			        query,
@@ -127,8 +127,7 @@ public class UsuariosTempDAOImplement implements UsuariosTempDAO{
 			                return utemp;
 			            }
 			        });
-			logger.info("usuario obtenido con exito --> "+ usuariostemps);
-			if(code == usuariostemps.getUsuarioCodigo())
+			if(code.equals(usuariostemps.getUsuarioCodigo()))
 			{
 				logger.info("el código Si coincide");
 				return true;

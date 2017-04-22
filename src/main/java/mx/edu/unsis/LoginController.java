@@ -104,15 +104,15 @@ public class LoginController {
     public @ResponseBody String VerifyUserCode(Model model, HttpServletResponse response, @RequestBody VerifyUserCode request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
-	        /*Usuarios u = this.usv.verifyUserCode(request.getIduser(),request.getCode());
-	        if(u==null){
+	        
+	        if(!this.ustemp.verificarCodigoUsuario(request.getIduser(),request.getCode())){
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", false);
 	        }else{
 	            
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", true);
-	        }*/
+	        }
 	    }else{
 	        
 	            r.addProperty("statuscon", false);
