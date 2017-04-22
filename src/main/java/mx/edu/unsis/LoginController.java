@@ -5,6 +5,8 @@
  */
 package mx.edu.unsis;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -21,7 +23,9 @@ import com.google.gson.JsonObject;
 
 import mx.edu.request.*;
 import mx.edu.unsis.model.Usuarios;
+import mx.edu.unsis.model.UsuariosTemp;
 import mx.edu.unsis.service.UsuariosService;
+import mx.edu.unsis.service.UsuariosTempService;
 
 /**
  *
@@ -31,6 +35,9 @@ import mx.edu.unsis.service.UsuariosService;
 public class LoginController {
     @Autowired
     private UsuariosService usv;
+    
+    @Autowired
+    private UsuariosTempService ustemp;
     
     private static final Logger Logger = LoggerFactory.getLogger(LoginController.class);
     
@@ -62,18 +69,21 @@ public class LoginController {
     public @ResponseBody String AddUser(Model model, HttpServletResponse response, @RequestBody AddUser request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
-	        Usuarios u = new Usuarios();
-	        u.setUsuarioId(request.getIduser());
-	        u.setUsuarioPassword(request.getPasscon());
-	        u.setUsuarioTelefono(request.getPhone());
-	        u.setUsuarioIdGcm("");
-	        this.usv.insertUsuario(u);
-	        if(u==null){
+	    	Usuarios usuario = new Usuarios();
+	    	usuario = this.usv.getUsuarioById(request.getIduser());
+	        if(usuario!=null){
 	            r.addProperty("statuscon", true);
 	            r.addProperty("idstatus", false);
 	            r.addProperty("procstatus", false);
-	        }else{
-	            
+	        }
+			else{	  
+			    UsuariosTemp u = new UsuariosTemp();
+			    u.setUsuarioId(request.getIduser());	        
+			    u.setUsuarioTelefono(request.getPhone());	
+			    String code = generarCodigo();
+			    System.out.println(code);
+			    u.setUsuarioCodigo(code);
+			    this.ustemp.insertUsuarioTemp(u);
 	            r.addProperty("statuscon", true);
 	            r.addProperty("idstatus", true);
 	            r.addProperty("procstatus", true);
@@ -137,4 +147,12 @@ public class LoginController {
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
 	    return r.toString();
 	}
+    
+    public String generarCodigo(){
+    	String cod="";
+    	cod=""+ThreadLocalRandom.current().nextInt(0, 8 + 1)+""+ThreadLocalRandom.current().nextInt(0, 8 + 1);
+    	cod=cod+""+ThreadLocalRandom.current().nextInt(0, 8 + 1);
+    	cod= cod+""+ThreadLocalRandom.current().nextInt(0, 8 + 1);
+    	return cod;
+    }
 }

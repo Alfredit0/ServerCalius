@@ -9,6 +9,9 @@
 	
 	<beans:bean id="userDao" class="mx.edu.unsis.dao.UsuarioDAOImplement"></beans:bean>
 	<beans:bean id="userService" class="mx.edu.unsis.service.UsuariosServiceImplement"></beans:bean>
+	
+	<beans:bean id="userTemDao" class="mx.edu.unsis.dao.UsuariosTempDAOImplement"></beans:bean>
+	<beans:bean id="userTempService" class="mx.edu.unsis.service.UsuariosTempServiceImplement"></beans:bean>
 	 
 	<context:property-placeholder location="classpath:jdbc.properties"/>
 	

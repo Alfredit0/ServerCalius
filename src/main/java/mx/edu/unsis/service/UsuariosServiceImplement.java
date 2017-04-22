@@ -38,7 +38,7 @@ public class UsuariosServiceImplement implements UsuariosService{
 
 	@Override
 	public Usuarios getUsuarioById(String id) {
-		return this.getUsuarioById(id);
+		return this.u.getUsuarioById(id);
 	}
 
 	@Override
