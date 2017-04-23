@@ -77,14 +77,15 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		String formattedDate = dateFormat.format(date);
 
 		model.addAttribute("serverTime", formattedDate );
+
 		return "home";
 	}
     @RequestMapping(value = "/grupos",method = RequestMethod.GET)
     public @ResponseBody String obtenerGrupos(Model model, HttpServletResponse response){
 	    JsonObject r = new JsonObject();
-		List<String> licenciaturas = Licenciaturas.getAllLicenciaturas();
+	    List<String> grupos = Grupos.getAllGrupos();
 		
-	    r.addProperty("grupos", licenciaturas.toString());
+	    r.addProperty("grupos", grupos.toString());
 	    response.setContentType("application/json");
 	    response.setHeader("Access-Control-Allow-Origin","*");
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
