@@ -91,38 +91,6 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		return "home";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public @ResponseBody ResponseVo login(
-			HttpServletResponse response, 
-			@RequestBody RequestVo req
-			) throws IOException{
-
-		logger.info("************ENTRANDO AL METODO DE LOGIN*********************");
-	
-
-		ResponseVo res = new ResponseVo();
-
-		Usuarios p = this.usv.getUsuarioById("2013060024");				
-
-
-		if(!"12345".equals(req.getPassword())){
-			res.setsuccessPassword(false);
-			res.setSuccessToken(false);
-			res.setMessageType("POST");
-			res.setPost(true);
-		} else {
-			res.setsuccessPassword(true);
-			res.setSuccessToken(true);
-			res.setMessageType("POST");
-			res.setPost(true);
-		}
-
-		response.setContentType("application/json");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-		return res;
-	}
-
 	/**
 	 * SERVICIO PARA REGISTRO DEL ID DE NOTIFICACION
 	 */
@@ -132,8 +100,22 @@ public class HomeController extends WebMvcConfigurerAdapter{
 			HttpServletResponse response, 
 			@RequestBody RequestRegistrationId req
 			) throws IOException{
-
-		 ResponseRegistrationId responseRegistrationId = new ResponseRegistrationId();
+		
+		Usuarios u = this.usv.getUsuarioById(req.getIduser());
+		ResponseRegistrationId responseRegistrationId = new ResponseRegistrationId();
+		
+		if(u!=null){
+			u.setUsuarioIdGcm(req.getRegistrationId());
+			this.usv.updateUsuario(u);
+	        responseRegistrationId.setCodeResponse(ResponseRegistrationId.OK);
+	        responseRegistrationId
+	            .setMessageResponse("Registro efectuado satisfactoriamente");
+		}else{
+	        responseRegistrationId.setCodeResponse(ResponseRegistrationId.KAO);
+	        responseRegistrationId.setMessageResponse("Error al registrar el codigo GCM");
+		}
+		 
+		 /*
 		    try {
 		        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(
 		            new File(PATH)));
@@ -148,7 +130,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		        e.printStackTrace();
 		        responseRegistrationId.setCodeResponse(ResponseRegistrationId.KAO);
 		        responseRegistrationId.setMessageResponse(e.getMessage());
-		      }
+		      }*/
 		      		 
 		//Cabeceras de respuesta
 		response.setContentType("application/json");
@@ -173,7 +155,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
 		String mensaje = req.getPassword();
 		//Se lee el identificador de registro guardado previamente a traves del servicio REST
-		String idRegistro=recuperarIdRegistro();
+		String idRegistro=recuperarIdRegistro("2013060024");
 		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
 		JsonObject jsonObject = new JsonObject();
 		JsonObject data = new JsonObject();
@@ -226,7 +208,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
 		String mensaje ="Asunto: " + req.getAsunto() + " Mensaje: " +req.getMensaje();
 		//Se lee el identificador de registro guardado previamente a traves del servicio REST
-		String idRegistro=recuperarIdRegistro();
+		String idRegistro=recuperarIdRegistro(req.getDestintario());
 		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
 		JsonObject jsonObject = new JsonObject();
 		JsonObject data = new JsonObject();
@@ -269,10 +251,13 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	 * @return Devuelve el identificador de registro
 	 * @throws IOException
 	 */
-	private static final String recuperarIdRegistro() throws IOException{
+	public String recuperarIdRegistro(String idUser) throws IOException{
 		//BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(PATH)));
-		String registroId ="APA91bFEVZ3BEfB2rAwfc7-eZ0mSvp0FhRON8XtP7BYqQwQ06sPtz8aLUQxwJielObYF7qHa-1bJpo5-oQuPK4iThfR9PKJE7W8layNMvIb60r1hjfZEjdiuUyLG5hTtiPWs23s1Nrb79HTlkMFiqlweivtSluwyvg";  
-		//bufferedReader.close();   
+		//String registroId ="APA91bFEVZ3BEfB2rAwfc7-eZ0mSvp0FhRON8XtP7BYqQwQ06sPtz8aLUQxwJielObYF7qHa-1bJpo5-oQuPK4iThfR9PKJE7W8layNMvIb60r1hjfZEjdiuUyLG5hTtiPWs23s1Nrb79HTlkMFiqlweivtSluwyvg";  
+		//bufferedReader.close();
+		Usuarios u = this.usv.getUsuarioById("2013060024");	
+		String registroId = "";
+		registroId = u.getUsuarioIdGcm(); 
 		return registroId;
 	}
 
