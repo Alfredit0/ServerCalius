@@ -13,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +36,8 @@ import com.google.gson.JsonPrimitive;
 import mx.edu.unsis.ResponseVo;
 import mx.edu.unsis.dao.UsuarioDAO;
 import mx.edu.unsis.RequestVo;
-
+import mx.edu.unsis.model.Grupos;
+import mx.edu.unsis.model.Licenciaturas;
 import mx.edu.unsis.model.Usuarios;
 
 /**
@@ -87,7 +89,14 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 		//model.addAttribute("matricula", p.getUser_id());
 
-
+		List<String> licenciaturas = Licenciaturas.getAllLicenciaturas();
+		for(String licenciatura : licenciaturas){
+			logger.info(licenciatura);
+		}
+		List<String> grupos = Grupos.getAllGrupos();
+		for(String grupo : grupos){
+			logger.info(grupo);
+		}
 		return "home";
 	}
 
