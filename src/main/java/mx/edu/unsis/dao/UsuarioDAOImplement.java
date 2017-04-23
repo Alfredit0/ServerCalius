@@ -41,7 +41,7 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 	public boolean updateUsuario(Usuarios u) {
 		String query = "update usuarios set usuarioTelefono = ?, usuarioPassword = ?, usuarioIdGcm = ?, usuarioTipo = ? where usuarioId = ?;";
 		try {
-			jdbcTemplate.update(query, new Object[]{u.getUsuarioTelefono(), u.getUsuarioPassword(), u.getUsuarioIdGcm(), u.getUsuarioId(), u.getUsuarioTipo()});
+			jdbcTemplate.update(query, new Object[]{u.getUsuarioTelefono(), u.getUsuarioPassword(), u.getUsuarioIdGcm(), u.getUsuarioTipo(), u.getUsuarioId()});
 			logger.info("El usuario fue actualizado correctamente. Datos del Usuario --> "+u);
 			return true;
 		} catch (Exception e) {
