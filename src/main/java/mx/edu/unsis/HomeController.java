@@ -35,10 +35,12 @@ import com.google.gson.JsonPrimitive;
 
 import mx.edu.unsis.ResponseVo;
 import mx.edu.unsis.dao.UsuarioDAO;
+import mx.edu.request.AddUser;
 import mx.edu.unsis.RequestVo;
 import mx.edu.unsis.model.Grupos;
 import mx.edu.unsis.model.Licenciaturas;
 import mx.edu.unsis.model.Usuarios;
+import mx.edu.unsis.model.UsuariosTemp;
 
 /**
  * Handles requests for the application home page.
@@ -67,17 +69,6 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		Usuarios u = new Usuarios();
-		u.setUsuarioId("2013060015");
-		u.setUsuarioIdGcm("125");
-		u.setUsuarioPassword("admin123");
-		u.setUsuarioTelefono("9512197933");
-		this.usv.insertUsuario(u);
-		this.usv.getUsuarioById(u.getUsuarioId());
-		u.setUsuarioIdGcm("111");
-		this.usv.updateUsuario(u);
-		this.usv.getAllUsers();
-		this.usv.loginUser(u.getUsuarioId(), u.getUsuarioPassword(), 2);
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
@@ -87,19 +78,31 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 		model.addAttribute("serverTime", formattedDate );
 
-		//model.addAttribute("matricula", p.getUser_id());
-
-		List<String> licenciaturas = Licenciaturas.getAllLicenciaturas();
-		for(String licenciatura : licenciaturas){
-			logger.info(licenciatura);
-		}
-		List<String> grupos = Grupos.getAllGrupos();
-		for(String grupo : grupos){
-			logger.info(grupo);
-		}
 		return "home";
 	}
+    @RequestMapping(value = "/grupos",method = RequestMethod.GET)
+    public @ResponseBody String obtenerGrupos(Model model, HttpServletResponse response){
+	    JsonObject r = new JsonObject();
+	    List<String> grupos = Grupos.getAllGrupos();
+		
+	    r.addProperty("grupos", grupos.toString());
+	    response.setContentType("application/json");
+	    response.setHeader("Access-Control-Allow-Origin","*");
+	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+	    return r.toString();
+	}	
 
+    @RequestMapping(value = "/carreras",method = RequestMethod.GET)
+    public @ResponseBody String obtenerCarreras(Model model, HttpServletResponse response){
+	    JsonObject r = new JsonObject();
+		List<String> licenciaturas = Licenciaturas.getAllLicenciaturas();
+		
+	    r.addProperty("carreras", licenciaturas.toString());
+	    response.setContentType("application/json");
+	    response.setHeader("Access-Control-Allow-Origin","*");
+	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+	    return r.toString();
+	}	
 	/**
 	 * SERVICIO PARA REGISTRO DEL ID DE NOTIFICACION
 	 */
