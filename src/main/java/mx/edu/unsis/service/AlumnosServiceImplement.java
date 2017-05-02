@@ -33,7 +33,7 @@ public class AlumnosServiceImplement implements AlumnosService{
 	 */
 	@Override
 	public boolean updateAlumno(Alumnos a) {
-		return this.updateAlumno(a);
+		return this.a.updateAlumno(a);
 	}
 
 	/* (non-Javadoc)
@@ -57,7 +57,12 @@ public class AlumnosServiceImplement implements AlumnosService{
 	 */
 	@Override
 	public List<Alumnos> getAllAlumnos() {
-		return this.getAllAlumnos();
+		return this.a.getAllAlumnos();
+	}
+
+	@Override
+	public List<String> getGruposActuales() {
+		return this.a.getGruposActuales();
 	}
 
 }
