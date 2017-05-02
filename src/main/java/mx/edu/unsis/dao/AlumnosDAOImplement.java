@@ -2,6 +2,8 @@ package mx.edu.unsis.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -117,6 +119,36 @@ public class AlumnosDAOImplement implements AlumnosDAO{
 			return alumnos;
 		} catch (Exception e) {
 			logger.info("error al consultar todos los alumnos --> " + e);
+			return null;
+		}
+	}
+
+	@Override
+	public List<String> getGruposActuales() {
+		String año, periodo="";
+		Calendar fecha = Calendar.getInstance();
+        año = String.valueOf(fecha.get(Calendar.YEAR));
+		int mes = fecha.get(Calendar.MONTH);
+		if(mes>=9 || mes <=1){
+			periodo = año+"-A";
+		}else if(mes>=2 && mes <=6){
+			periodo = año+"-B";
+		}
+		String query = "select distinct alumnoGrupo from alumnos where alumnoPeriodo = ?";
+		logger.info("Periodo Actual --> "+periodo);
+		try {
+			List<String> grupos = this.jdbcTemplate.query(
+			        query,
+			        new Object[]{periodo},
+			        new RowMapper<String>() {
+			            public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+			                return rs.getString("alumnoGrupo");
+			            }
+			        });
+			logger.info("grupos consultados exitosamente");
+			return grupos;
+		} catch (Exception e) {
+			logger.info("error al consultar todos los grupos --> " + e);
 			return null;
 		}
 	}

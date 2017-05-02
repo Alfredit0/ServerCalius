@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import mx.edu.unsis.model.Alumnos;
 
+// TODO: Auto-generated Javadoc
 /**
  * 	
  * Interfaz que provee los metodos DAO para la tabla alumnos de la base de datos.
@@ -29,6 +30,7 @@ public interface AlumnosDAO {
 	 * Insert alumno.
 	 *
 	 * @param a the a
+	 * @return true, if successful
 	 */
 	public boolean insertAlumno(Alumnos a);
 	
@@ -36,6 +38,7 @@ public interface AlumnosDAO {
 	 * Update alumno.
 	 *
 	 * @param a the a
+	 * @return true, if successful
 	 */
 	public boolean updateAlumno(Alumnos a);
 	
@@ -61,4 +64,11 @@ public interface AlumnosDAO {
 	 * @return todos los alumnos existentes en la base de datos
 	 */
 	public List<Alumnos> getAllAlumnos();
+	
+	/**
+	 * Gets los grupos actuales dependiendo del periodo
+	 *
+	 * @return una lista de tipo String con los grupos actuales
+	 */
+	public List<String> getGruposActuales();
 }

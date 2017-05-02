@@ -50,4 +50,11 @@ public interface AlumnosService {
 	 * @return todos los alumnos existentes en la base de datos
 	 */
 	public List<Alumnos> getAllAlumnos();
+	
+	/**
+	 * Gets los grupos actuales dependiendo del periodo
+	 *
+	 * @return una lista de tipo String con los grupos actuales
+	 */
+	public List<String> getGruposActuales();
 }
