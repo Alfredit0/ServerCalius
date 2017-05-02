@@ -13,6 +13,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,9 +35,12 @@ import com.google.gson.JsonPrimitive;
 
 import mx.edu.unsis.ResponseVo;
 import mx.edu.unsis.dao.UsuarioDAO;
+import mx.edu.request.AddUser;
 import mx.edu.unsis.RequestVo;
-
+import mx.edu.unsis.model.Grupos;
+import mx.edu.unsis.model.Licenciaturas;
 import mx.edu.unsis.model.Usuarios;
+import mx.edu.unsis.model.UsuariosTemp;
 
 /**
  * Handles requests for the application home page.
@@ -56,7 +60,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	public static String URL_GOOGLE_CLOUD_MESSAGE="https://android.googleapis.com/gcm/send";
 
 	//La API_KEY se inicializa con el valor obtenido desde la api console 
-	public static String API_KEY="AIzaSyDJbDWIjqdcBGTxm0Xe798Rg9TyAKyNYGE";
+	public static String API_KEY="AIzaSyCjVbvarKSfCLXsnJzJ3OWDO4MeTStNVU0";
 
 	private static final long serialVersionUID = 1L;	
 
@@ -65,18 +69,6 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-
-		Usuarios u = new Usuarios();
-		u.setUsuarioId("2013060015");
-		u.setUsuarioIdGcm("125");
-		u.setUsuarioPassword("admin123");
-		u.setUsuarioTelefono("9512197933");
-		this.usv.insertUsuario(u);
-		this.usv.getUsuarioById(u.getUsuarioId());
-		u.setUsuarioIdGcm("111");
-		this.usv.updateUsuario(u);
-		this.usv.getAllUsers();
-		this.usv.loginUser(u.getUsuarioId(), u.getUsuarioPassword());
 		logger.info("Welcome home! The client locale is {}.", locale);
 
 		Date date = new Date();
@@ -86,44 +78,31 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 		model.addAttribute("serverTime", formattedDate );
 
-		//model.addAttribute("matricula", p.getUser_id());
-
-
 		return "home";
 	}
+    @RequestMapping(value = "/grupos",method = RequestMethod.GET)
+    public @ResponseBody String obtenerGrupos(Model model, HttpServletResponse response){
+	    JsonObject r = new JsonObject();
+	    List<String> grupos = Grupos.getAllGrupos();
+		
+	    r.addProperty("grupos", grupos.toString());
+	    response.setContentType("application/json");
+	    response.setHeader("Access-Control-Allow-Origin","*");
+	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+	    return r.toString();
+	}	
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public @ResponseBody ResponseVo login(
-			HttpServletResponse response, 
-			@RequestBody RequestVo req
-			) throws IOException{
-
-		logger.info("************ENTRANDO AL METODO DE LOGIN*********************");
-	
-
-		ResponseVo res = new ResponseVo();
-
-		Usuarios p = this.usv.getUsuarioById("2013060024");				
-
-
-		if(!"12345".equals(req.getPassword())){
-			res.setsuccessPassword(false);
-			res.setSuccessToken(false);
-			res.setMessageType("POST");
-			res.setPost(true);
-		} else {
-			res.setsuccessPassword(true);
-			res.setSuccessToken(true);
-			res.setMessageType("POST");
-			res.setPost(true);
-		}
-
-		response.setContentType("application/json");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-		return res;
-	}
-
+    @RequestMapping(value = "/carreras",method = RequestMethod.GET)
+    public @ResponseBody String obtenerCarreras(Model model, HttpServletResponse response){
+	    JsonObject r = new JsonObject();
+		List<String> licenciaturas = Licenciaturas.getAllLicenciaturas();
+		
+	    r.addProperty("carreras", licenciaturas.toString());
+	    response.setContentType("application/json");
+	    response.setHeader("Access-Control-Allow-Origin","*");
+	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+	    return r.toString();
+	}	
 	/**
 	 * SERVICIO PARA REGISTRO DEL ID DE NOTIFICACION
 	 */
@@ -133,8 +112,22 @@ public class HomeController extends WebMvcConfigurerAdapter{
 			HttpServletResponse response, 
 			@RequestBody RequestRegistrationId req
 			) throws IOException{
-
-		 ResponseRegistrationId responseRegistrationId = new ResponseRegistrationId();
+		
+		Usuarios u = this.usv.getUsuarioById(req.getIduser());
+		ResponseRegistrationId responseRegistrationId = new ResponseRegistrationId();
+		
+		if(u!=null){
+			u.setUsuarioIdGcm(req.getRegistrationId());
+			this.usv.updateUsuario(u);
+	        responseRegistrationId.setCodeResponse(ResponseRegistrationId.OK);
+	        responseRegistrationId
+	            .setMessageResponse("Registro efectuado satisfactoriamente");
+		}else{
+	        responseRegistrationId.setCodeResponse(ResponseRegistrationId.KAO);
+	        responseRegistrationId.setMessageResponse("Error al registrar el codigo GCM");
+		}
+		 
+		 /*
 		    try {
 		        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(
 		            new File(PATH)));
@@ -149,7 +142,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		        e.printStackTrace();
 		        responseRegistrationId.setCodeResponse(ResponseRegistrationId.KAO);
 		        responseRegistrationId.setMessageResponse(e.getMessage());
-		      }
+		      }*/
 		      		 
 		//Cabeceras de respuesta
 		response.setContentType("application/json");
@@ -174,7 +167,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
 		String mensaje = req.getPassword();
 		//Se lee el identificador de registro guardado previamente a traves del servicio REST
-		String idRegistro=recuperarIdRegistro();
+		String idRegistro=recuperarIdRegistro("2013060024");
 		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
 		JsonObject jsonObject = new JsonObject();
 		JsonObject data = new JsonObject();
@@ -225,9 +218,9 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
-		String mensaje = req.getMensaje();
+		String mensaje ="Asunto: " + req.getAsunto() + " Mensaje: " +req.getMensaje();
 		//Se lee el identificador de registro guardado previamente a traves del servicio REST
-		String idRegistro=recuperarIdRegistro();
+		String idRegistro=recuperarIdRegistro(req.getDestintario());
 		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
 		JsonObject jsonObject = new JsonObject();
 		JsonObject data = new JsonObject();
@@ -270,10 +263,13 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	 * @return Devuelve el identificador de registro
 	 * @throws IOException
 	 */
-	private static final String recuperarIdRegistro() throws IOException{
-		BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(PATH)));
-		String registroId = bufferedReader.readLine();  
-		bufferedReader.close();   
+	public String recuperarIdRegistro(String idUser) throws IOException{
+		//BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(PATH)));
+		//String registroId ="APA91bFEVZ3BEfB2rAwfc7-eZ0mSvp0FhRON8XtP7BYqQwQ06sPtz8aLUQxwJielObYF7qHa-1bJpo5-oQuPK4iThfR9PKJE7W8layNMvIb60r1hjfZEjdiuUyLG5hTtiPWs23s1Nrb79HTlkMFiqlweivtSluwyvg";  
+		//bufferedReader.close();
+		Usuarios u = this.usv.getUsuarioById("2013060024");	
+		String registroId = "";
+		registroId = u.getUsuarioIdGcm(); 
 		return registroId;
 	}
 

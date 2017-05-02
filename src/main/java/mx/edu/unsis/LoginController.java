@@ -5,6 +5,8 @@
  */
 package mx.edu.unsis;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -21,7 +23,9 @@ import com.google.gson.JsonObject;
 
 import mx.edu.request.*;
 import mx.edu.unsis.model.Usuarios;
+import mx.edu.unsis.model.UsuariosTemp;
 import mx.edu.unsis.service.UsuariosService;
+import mx.edu.unsis.service.UsuariosTempService;
 
 /**
  *
@@ -32,13 +36,16 @@ public class LoginController {
     @Autowired
     private UsuariosService usv;
     
+    @Autowired
+    private UsuariosTempService ustemp;
+    
     private static final Logger Logger = LoggerFactory.getLogger(LoginController.class);
     
     @RequestMapping(value = "/loginuser",method = RequestMethod.POST)
     public @ResponseBody String loginUser(Model model, HttpServletResponse response, @RequestBody LoginUser request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
-	        Usuarios u = this.usv.loginUser(request.getIduser(),request.getPassword());
+	        Usuarios u = this.usv.loginUser(request.getIduser(),request.getPassword(), request.getUsuarioTipo());
 	        if(u==null){
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", false);
@@ -62,18 +69,21 @@ public class LoginController {
     public @ResponseBody String AddUser(Model model, HttpServletResponse response, @RequestBody AddUser request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
-	        Usuarios u = new Usuarios();
-	        u.setUsuarioId(request.getIduser());
-	        u.setUsuarioPassword(request.getPasscon());
-	        u.setUsuarioTelefono(request.getPhone());
-	        u.setUsuarioIdGcm("");
-	        this.usv.insertUsuario(u);
-	        if(u==null){
+	    	Usuarios usuario = new Usuarios();
+	    	usuario = this.usv.getUsuarioById(request.getIduser());
+	        if(usuario!=null){
 	            r.addProperty("statuscon", true);
 	            r.addProperty("idstatus", false);
 	            r.addProperty("procstatus", false);
-	        }else{
-	            
+	        }
+			else{	  
+			    UsuariosTemp u = new UsuariosTemp();
+			    u.setUsuarioId(request.getIduser());	        
+			    u.setUsuarioTelefono(request.getPhone());	
+			    String code = generarCodigo();
+			    System.out.println(code);
+			    u.setUsuarioCodigo(code);
+			    this.ustemp.insertUsuarioTemp(u);
 	            r.addProperty("statuscon", true);
 	            r.addProperty("idstatus", true);
 	            r.addProperty("procstatus", true);
@@ -94,15 +104,15 @@ public class LoginController {
     public @ResponseBody String VerifyUserCode(Model model, HttpServletResponse response, @RequestBody VerifyUserCode request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
-	        /*Usuarios u = this.usv.verifyUserCode(request.getIduser(),request.getCode());
-	        if(u==null){
+	        
+	        if(!this.ustemp.verificarCodigoUsuario(request.getIduser(),request.getCode())){
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", false);
 	        }else{
 	            
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", true);
-	        }*/
+	        }
 	    }else{
 	        
 	            r.addProperty("statuscon", false);
@@ -118,15 +128,23 @@ public class LoginController {
     public @ResponseBody String SaveUserPass(Model model, HttpServletResponse response, @RequestBody SaveUserPass request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
-	        /*Usuarios u = this.usv.saveUserPass(request.getIduser(),request.getPassword());
-	        if(u==null){
+	        UsuariosTemp ut = this.ustemp.getUsuarioTempById(request.getIduser());
+	        if(ut!=null){
+		        Usuarios u = new Usuarios(); 
+		        u.setUsuarioId(ut.getUsuarioId());
+		        u.setUsuarioIdGcm(null);
+		        u.setUsuarioPassword(request.getPassword());
+		        u.setUsuarioTelefono(ut.getUsuarioTelefono());
+		        u.setUsuarioTipo(1);
+		        this.usv.insertUsuario(u);
+		        this.ustemp.eliminarUsuarioTemp(ut.getUsuarioId());
 	            r.addProperty("statuscon", true);
-	            r.addProperty("status", false);
+	            r.addProperty("status", true);
 	        }else{
 	            
 	            r.addProperty("statuscon", true);
-	            r.addProperty("status", true);
-	        }*/
+	            r.addProperty("status", false);
+	        }
 	    }else{
 	        
 	            r.addProperty("statuscon", false);
@@ -137,4 +155,12 @@ public class LoginController {
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
 	    return r.toString();
 	}
+    
+    public String generarCodigo(){
+    	String cod="";
+    	cod=""+ThreadLocalRandom.current().nextInt(0, 8 + 1)+""+ThreadLocalRandom.current().nextInt(0, 8 + 1);
+    	cod=cod+""+ThreadLocalRandom.current().nextInt(0, 8 + 1);
+    	cod= cod+""+ThreadLocalRandom.current().nextInt(0, 8 + 1);
+    	return cod;
+    }
 }

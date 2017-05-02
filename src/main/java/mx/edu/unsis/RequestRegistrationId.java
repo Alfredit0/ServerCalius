@@ -4,6 +4,9 @@ public class RequestRegistrationId {
 	//Llave para la conexion con el servicio
 	private String passcon;
 	
+	//Id del usuario
+	private String iduser;
+	
 	//Identificador del registro
 	private String registrationId;
 
@@ -14,6 +17,14 @@ public class RequestRegistrationId {
 
 	public void setPasscon(String passcon) {
 		this.passcon = passcon;
+	}		
+
+	public String getIduser() {
+		return iduser;
+	}
+
+	public void setIduser(String iduser) {
+		this.iduser = iduser;
 	}
 
 	public String getRegistrationId() {

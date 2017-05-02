@@ -38,12 +38,12 @@ public class UsuariosServiceImplement implements UsuariosService{
 
 	@Override
 	public Usuarios getUsuarioById(String id) {
-		return this.getUsuarioById(id);
+		return this.u.getUsuarioById(id);
 	}
 
 	@Override
-	public Usuarios loginUser(String userName, String password) {
-		return this.u.loginUser(userName, password);
+	public Usuarios loginUser(String userName, String password, int usuarioTipo) {
+		return this.u.loginUser(userName, password, usuarioTipo);
 	}
 
 }

@@ -13,8 +13,19 @@ public class LoginUser {
     private String passcon;
     private String iduser;
     private String password;
+    private int usuarioTipo;
+    
+    
 
-    /**
+    public int getUsuarioTipo() {
+		return usuarioTipo;
+	}
+
+	public void setUsuarioTipo(int usuarioTipo) {
+		this.usuarioTipo = usuarioTipo;
+	}
+
+	/**
      * @return the passcon
      */
     public String getPasscon() {

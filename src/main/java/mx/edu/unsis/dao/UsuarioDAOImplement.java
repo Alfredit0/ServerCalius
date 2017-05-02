@@ -41,7 +41,7 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 	public boolean updateUsuario(Usuarios u) {
 		String query = "update usuarios set usuarioTelefono = ?, usuarioPassword = ?, usuarioIdGcm = ?, usuarioTipo = ? where usuarioId = ?;";
 		try {
-			jdbcTemplate.update(query, new Object[]{u.getUsuarioTelefono(), u.getUsuarioPassword(), u.getUsuarioIdGcm(), u.getUsuarioId(), u.getUsuarioTipo()});
+			jdbcTemplate.update(query, new Object[]{u.getUsuarioTelefono(), u.getUsuarioPassword(), u.getUsuarioIdGcm(), u.getUsuarioTipo(), u.getUsuarioId()});
 			logger.info("El usuario fue actualizado correctamente. Datos del Usuario --> "+u);
 			return true;
 		} catch (Exception e) {
@@ -103,12 +103,12 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 	}
 
 	@Override
-	public Usuarios loginUser(String userName, String password) {
-		String query = "SELECT * FROM usuarios WHERE usuarioId = ? and usuarioPassword = ?;";
+	public Usuarios loginUser(String userName, String password, int usuarioTipo) {
+		String query = "SELECT * FROM usuarios WHERE usuarioId = ? and usuarioPassword = ? and usuarioTipo = ?;";
 		try {
 			Usuarios userLogin = jdbcTemplate.queryForObject(
 					query, 
-					new Object[] { userName, password },
+					new Object[] { userName, password, usuarioTipo },
 					new RowMapper<Usuarios>() {
 			            public Usuarios mapRow(ResultSet rs, int rowNum) throws SQLException {
 			                Usuarios usuarios = new Usuarios();

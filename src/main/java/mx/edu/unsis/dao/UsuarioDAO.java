@@ -62,5 +62,5 @@ public interface UsuarioDAO {
 	 * @param password la contraseña del usuario
 	 * @return null en caso de que no existe la cuenta, y un objeto Usuario si el usuario ya esta dado de alta
 	 */
-	public Usuarios loginUser(String userName, String password);
+	public Usuarios loginUser(String userName, String password, int usuarioTipo);
 }
