@@ -37,6 +37,11 @@ public class UsuariosServiceImplement implements UsuariosService{
 	}
 
 	@Override
+	public List<Usuarios> getAllUsers(String tipo, String parametro) {
+		return this.u.getAllUsers();
+	}
+	
+	@Override
 	public Usuarios getUsuarioById(String id) {
 		return this.u.getUsuarioById(id);
 	}

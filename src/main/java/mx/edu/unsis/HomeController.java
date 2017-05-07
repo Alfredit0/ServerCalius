@@ -34,6 +34,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import mx.edu.unsis.ResponseVo;
+import mx.edu.unsis.dao.AlumnosDAO;
 import mx.edu.unsis.dao.UsuarioDAO;
 import mx.edu.request.AddUser;
 import mx.edu.unsis.RequestVo;
@@ -51,6 +52,9 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	@Autowired
 	private UsuarioDAO usv;
 
+	@Autowired
+	private AlumnosDAO serviciosAlumnos;
+	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	// Ubicación del fichero donde se persistira el identificador de registro
@@ -219,14 +223,12 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
 		String mensaje ="Asunto: " + req.getAsunto() + " Mensaje: " +req.getMensaje();
-		//Se lee el identificador de registro guardado previamente a traves del servicio REST
-		String idRegistro=recuperarIdRegistro(req.getDestintario());
+
 		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
 		JsonObject jsonObject = new JsonObject();
 		JsonObject data = new JsonObject();
 		data.addProperty("mensaje",mensaje);
-		JsonArray registration_ids = new JsonArray();
-		registration_ids.add(new JsonPrimitive(idRegistro));
+		JsonArray registration_ids = obtenerArrayIdGcm(req.getTipo(), req.getDestintario());
 		/*
 		 * Por convención el objeto Json tendrá como mínimo los siguientes atributos "data" y "registration_ids" 
 		 * aunque hay muchos otros atributos que son opcionales. En este ejemplo solo se pasa por parametro un único identificador
@@ -315,5 +317,24 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		}
 		return null;
 	}	  
-
+	
+	public JsonArray obtenerArrayIdGcm(String tipo, String parametro) throws IOException{		
+		JsonArray registration_ids = new JsonArray();
+		//Se lee el identificador de registro guardado previamente a traves del servicio REST
+		if("alumno".equals(tipo)){			
+			registration_ids.add(new JsonPrimitive(recuperarIdRegistro(parametro)));
+		}else if("grupo".equals(tipo)){
+			
+			List<Usuarios> usuarios = this.usv.getAllUsers("alumnoGrupo", parametro);
+			for(Usuarios user : usuarios){				
+				registration_ids.add(new JsonPrimitive(user.getUsuarioIdGcm()));
+			}
+		}else if("carrera".equals(tipo)){
+			List<Usuarios> usuarios = this.usv.getAllUsers("alumnoLic", parametro);
+			for(Usuarios user : usuarios){				
+				registration_ids.add(new JsonPrimitive(user.getUsuarioIdGcm()));
+			}			
+		}
+		return registration_ids;
+	} 
 }

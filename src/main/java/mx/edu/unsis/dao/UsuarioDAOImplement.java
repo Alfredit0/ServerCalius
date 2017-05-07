@@ -101,6 +101,32 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 			return null;
 		}
 	}
+	
+	@Override
+	public List<Usuarios> getAllUsers(String tipo, String parametro) {
+		String query = "select usuarioId, usuarioIdGcm, usuarioPassword, usuarioTelefono,usuarioTipo from usuarios JOIN alumnos ON alumnos.alumnoMatricula = usuarios.usuarioId where"+tipo+" = '"+parametro+"'";
+		try {
+			List<Usuarios> usuarios = this.jdbcTemplate.query(
+			        query,
+			        new RowMapper<Usuarios>() {
+			            public Usuarios mapRow(ResultSet rs, int rowNum) throws SQLException {
+			                Usuarios usuarios = new Usuarios();
+			                usuarios.setUsuarioId(rs.getString("usuarioId"));
+			                usuarios.setUsuarioIdGcm(rs.getString("usuarioIdGcm"));
+			                usuarios.setUsuarioPassword(rs.getString("usuarioPassword"));
+			                usuarios.setUsuarioTelefono(rs.getString("usuarioTelefono"));
+			                usuarios.setUsuarioTipo(rs.getInt("usuarioTipo"));
+			                return usuarios;
+			            }
+			        });
+			logger.info("usuarios consultados exitosamente");
+			return usuarios;
+		} catch (Exception e) {
+			logger.info("error al consultar todos los usuarios --> " + e);
+			return null;
+		}
+		
+	}	
 
 	@Override
 	public Usuarios loginUser(String userName, String password, int usuarioTipo) {
