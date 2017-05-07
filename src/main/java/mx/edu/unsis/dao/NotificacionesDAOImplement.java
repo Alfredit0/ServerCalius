@@ -133,7 +133,7 @@ public class NotificacionesDAOImplement implements NotificacionesDAO {
 			            	n.setNotifMensaje(rs.getString("notifMensaje"));
 			            	n.setNotifFecha(rs.getString("notifFecha"));
 			            	n.setNotifAsunto(rs.getString("notifAsunto"));
-			            	
+			            	logger.info(n.toString());
 			                return n;
 			            }
 			        });
