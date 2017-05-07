@@ -42,6 +42,9 @@ import mx.edu.unsis.model.Grupos;
 import mx.edu.unsis.model.Licenciaturas;
 import mx.edu.unsis.model.Usuarios;
 import mx.edu.unsis.model.UsuariosTemp;
+import mx.edu.unsis.service.AdministrativosService;
+import mx.edu.unsis.service.AlumnosService;
+import mx.edu.unsis.service.UsuariosTempService;
 
 /**
  * Handles requests for the application home page.
@@ -51,6 +54,8 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 	@Autowired
 	private UsuarioDAO usv;
+	@Autowired
+	private AlumnosService asv;
 
 	@Autowired
 	private AlumnosDAO serviciosAlumnos;
@@ -79,7 +84,10 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
-
+		List<String> grupos = asv.getGruposActuales();
+		for(String grupo : grupos){
+			logger.info(grupo);
+		}
 		model.addAttribute("serverTime", formattedDate );
 
 		return "home";
