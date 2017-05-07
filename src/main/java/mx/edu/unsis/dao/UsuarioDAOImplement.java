@@ -104,7 +104,7 @@ public class UsuarioDAOImplement implements UsuarioDAO{
 	
 	@Override
 	public List<Usuarios> getAllUsers(String tipo, String parametro) {
-		String query = "select usuarioId, usuarioIdGcm, usuarioPassword, usuarioTelefono,usuarioTipo from usuarios JOIN alumnos ON alumnos.alumnoMatricula = usuarios.usuarioId where"+tipo+" = '"+parametro+"'";
+		String query = "select usuarioId, usuarioIdGcm, usuarioPassword, usuarioTelefono,usuarioTipo from usuarios JOIN alumnos ON alumnos.alumnoMatricula = usuarios.usuarioId where "+tipo+" = '"+parametro+"'";
 		try {
 			List<Usuarios> usuarios = this.jdbcTemplate.query(
 			        query,
