@@ -117,5 +117,32 @@ public class NotificacionesDAOImplement implements NotificacionesDAO {
 			return null;
 		}
 	}
+	
+	@Override
+	public List<Notificaciones> getNoNotificaciones(int no) {
+		String query = "select * from notificaciones limit "+ no;
+		try {
+			List<Notificaciones> notificaciones = this.jdbcTemplate.query(
+			        query,
+			        new RowMapper<Notificaciones>() {
+			            public Notificaciones mapRow(ResultSet rs, int rowNum) throws SQLException {
+			            	Notificaciones n = new Notificaciones();
+			            	n.setNotifId(rs.getInt("notifId"));
+			            	n.setNotifRemitente(rs.getString("notifRemitente"));
+			            	n.setNotifDestinatario(rs.getString("notifDstinatario"));
+			            	n.setNotifMensaje(rs.getString("notifMensaje"));
+			            	n.setNotifFecha(rs.getString("notifFecha"));
+			            	n.setNotifAsunto(rs.getString("notifAsunto"));
+			            	
+			                return n;
+			            }
+			        });
+			logger.info("notificaciónes consultados exitosamente");
+			return notificaciones;
+		} catch (Exception e) {
+			logger.info("error al consultar todos las notificaciones --> " + e);
+			return null;
+		}
+	}
 
 }
