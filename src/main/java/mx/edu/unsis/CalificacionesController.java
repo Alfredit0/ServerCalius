@@ -6,6 +6,7 @@
 package mx.edu.unsis;
 
 import com.google.gson.JsonObject;
+import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mx.edu.request.CalificacionesRequest;
@@ -50,6 +51,27 @@ public class CalificacionesController extends WebMvcConfigurerAdapter {
 	    }else{
 	        r.addProperty("statuscon", false);
 	    }
+            logger.info(r.toString());
+	    response.setContentType("application/json");
+	    response.setHeader("Access-Control-Allow-Origin","*");
+	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+	    return r.toString();
+	}
+    
+    @RequestMapping(value = "/periodo",method = RequestMethod.GET)
+    public @ResponseBody String periodo(Model model, HttpServletResponse response){
+	    JsonObject r = new JsonObject();
+            String año, periodo="";
+            Calendar fecha = Calendar.getInstance();
+            año = String.valueOf(fecha.get(Calendar.YEAR));
+		int mes = fecha.get(Calendar.MONTH);
+		if(mes>=9 || mes <=1){
+			periodo = año+"-A";
+		}else if(mes>=2 && mes <=6){
+			periodo = año+"-B";
+		}
+		logger.info("Periodo Actual --> "+periodo);
+            r.addProperty("periodo", periodo);
             logger.info(r.toString());
 	    response.setContentType("application/json");
 	    response.setHeader("Access-Control-Allow-Origin","*");
