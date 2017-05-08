@@ -86,5 +86,10 @@ public class CalificacionesAlumno {
         this.ordinario = ordinario;
     }
     
-    
+    public String toString(){
+		return "{materiaId: " +this.materiaId+", parcial1: " +this.parcial1
+				+ ",parcial2: " +this.parcial2
+				+ ",parcial3: " +this.parcial3
+                                +",ordinario: " +this.ordinario+"}";
+	}
 }

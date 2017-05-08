@@ -15,6 +15,9 @@
 	
 	<beans:bean id="AlumnoDAO" class="mx.edu.unsis.dao.AlumnosDAOImplement"></beans:bean>
 	<beans:bean id="AlumnoService" class="mx.edu.unsis.service.AlumnosServiceImplement"></beans:bean>
+        
+        <beans:bean id="CalificacionesDAO" class="mx.edu.unsis.dao.CalificacionesDAOImplement"></beans:bean>
+	<beans:bean id="CalificacionesService" class="mx.edu.unsis.service.CalificacionesServiceImplement"></beans:bean>
 	 
 	<context:property-placeholder location="classpath:jdbc.properties"/>
 	
