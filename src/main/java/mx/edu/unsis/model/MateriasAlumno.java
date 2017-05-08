@@ -40,4 +40,8 @@ public class MateriasAlumno {
             public void setNombreMateria(String nombreMateria) {
                 this.nombreMateria = nombreMateria;
             }
+            
+    public String toString(){
+        return "{idMateria: "+IdMateria+", nombreMateria: "+nombreMateria+"}";
+    }
 }

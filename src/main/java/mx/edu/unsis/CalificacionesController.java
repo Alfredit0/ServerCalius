@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mx.edu.request.CalificacionesRequest;
 import mx.edu.request.LoginUser;
+import mx.edu.request.MateriasRequest;
 import mx.edu.request.VerifyUserCode;
 import mx.edu.unsis.service.CalificacionesService;
 import org.slf4j.Logger;
@@ -58,8 +59,28 @@ public class CalificacionesController extends WebMvcConfigurerAdapter {
 	    return r.toString();
 	}
     
+    @RequestMapping(value = "/materias",method = RequestMethod.POST)
+    public @ResponseBody String materias(Model model, HttpServletResponse response, @RequestBody MateriasRequest request){
+	    JsonObject r = new JsonObject();
+            String passcon = request.getPasscon();
+            String iduser = request.getIduser();
+            String periodo = request.getPeriodo();
+            logger.info("passcon "+passcon+" iduser "+iduser + " peiodo "+periodo);
+	    if(passcon.equals("12345")){
+                r.addProperty("statuscon", true);
+                r.addProperty("materias", this.c.getMateriasByAlumno(iduser, periodo).toString());
+	    }else{
+	        r.addProperty("statuscon", false);
+	    }
+            logger.info(r.toString());
+	    response.setContentType("application/json");
+	    response.setHeader("Access-Control-Allow-Origin","*");
+	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+	    return r.toString();
+	}
+    
     @RequestMapping(value = "/periodo",method = RequestMethod.GET)
-    public @ResponseBody String periodo(Model model, HttpServletResponse response){
+    public @ResponseBody String Materias(Model model, HttpServletResponse response){
 	    JsonObject r = new JsonObject();
             String año, periodo="";
             Calendar fecha = Calendar.getInstance();
