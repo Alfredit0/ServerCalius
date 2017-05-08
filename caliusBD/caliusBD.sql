@@ -86,8 +86,8 @@ alter table calificaciones add foreign key (cMateriaId) references  materias(mat
 
 
 -- Alta Alumnos
-insert into alumnos values("2013060024", "Benito Alfredo", "Reyes", "Hernandez", "LCI", "806", 8, "2017-A");
-insert into alumnos values("2013060012", "Minerva", "Martinez", "Rios", "LCI", "806", 8, "2017-A");
+insert into alumnos values("2013060024", "Benito Alfredo", "Reyes", "Hernandez", "LI", "806", 8, "2017-A");
+insert into alumnos values("2013060012", "Minerva", "Martinez", "Rios", "LI", "806", 8, "2017-A");
 
 -- Alta Administrativos
 insert into Administrativos values("3256", "Gabriela Garcia", "Jefa Servicios Escolares");

@@ -57,6 +57,9 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	@Autowired
 	private AlumnosService asv;
 
+	@Autowired
+	private AlumnosDAO serviciosAlumnos;
+	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	// Ubicación del fichero donde se persistira el identificador de registro
@@ -69,6 +72,8 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	public static String API_KEY="AIzaSyCjVbvarKSfCLXsnJzJ3OWDO4MeTStNVU0";
 
 	private static final long serialVersionUID = 1L;	
+	
+	public int numMSGSEnviados = 0;
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -228,14 +233,13 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
 		String mensaje ="Asunto: " + req.getAsunto() + " Mensaje: " +req.getMensaje();
-		//Se lee el identificador de registro guardado previamente a traves del servicio REST
-		String idRegistro=recuperarIdRegistro(req.getDestintario());
+
 		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
 		JsonObject jsonObject = new JsonObject();
 		JsonObject data = new JsonObject();
 		data.addProperty("mensaje",mensaje);
-		JsonArray registration_ids = new JsonArray();
-		registration_ids.add(new JsonPrimitive(idRegistro));
+		numMSGSEnviados=0;
+		JsonArray registration_ids = obtenerArrayIdGcm(req.getTipo(), req.getDestintario());
 		/*
 		 * Por convención el objeto Json tendrá como mínimo los siguientes atributos "data" y "registration_ids" 
 		 * aunque hay muchos otros atributos que son opcionales. En este ejemplo solo se pasa por parametro un único identificador
@@ -244,21 +248,26 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		 */
 		jsonObject.add("data",data);
 		jsonObject.add("registration_ids",registration_ids);
+		
+		ResponseNotification res = new ResponseNotification();
+		
+		if(numMSGSEnviados!=0){
 		//Justo en la siguiente linea de codigo se invoca el servicio GCM de envio de notificaciones 
 		//y este nos devuelve una respuesta de confirmación
 		String respuesta = invocarServicioGCM(jsonObject.toString(),new URL(URL_GOOGLE_CLOUD_MESSAGE),API_KEY);
-
-		//Se almacena el mensaje de la notificación en el contexto de request para luego poder mostrarlo en la JSP de confirmación
-
-		//Por ultimo redirigimos hacia la jsp que visualiza la confirmación del envio de la notificacion
-
-
-
-		// Retorno de valores x
-		ResponseNotification res = new ResponseNotification();
+		
+		// Retorno de valores 		
 		res.setStatuscon(true);
 		res.setProcstatus(true);
-		res.setTotalenviados(1);		
+		res.setTotalenviados(numMSGSEnviados);	
+		}else{			
+			res.setStatuscon(true);
+			res.setProcstatus(false);
+			res.setTotalenviados(0);				
+		}
+
+		//Por ultimo redirigimos hacia la jsp que visualiza la confirmación del envio de la notificacion
+	
 
 		response.setContentType("application/json");
 		response.setHeader("Access-Control-Allow-Origin", "*");
@@ -324,5 +333,27 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		}
 		return null;
 	}	  
-
+	
+	public JsonArray obtenerArrayIdGcm(String tipo, String parametro) throws IOException{		
+		JsonArray registration_ids = new JsonArray();
+		//Se lee el identificador de registro guardado previamente a traves del servicio REST
+		if("alumno".equals(tipo)){			
+			registration_ids.add(new JsonPrimitive(recuperarIdRegistro(parametro)));
+			numMSGSEnviados=1;
+		}else if("grupo".equals(tipo)){
+			
+			List<Usuarios> usuarios = this.usv.getAllUsers("alumnoGrupo", parametro);
+			for(Usuarios user : usuarios){				
+				registration_ids.add(new JsonPrimitive(user.getUsuarioIdGcm()));
+				numMSGSEnviados++;
+			}
+		}else if("carrera".equals(tipo)){
+			List<Usuarios> usuarios = this.usv.getAllUsers("alumnoLic", parametro);
+			for(Usuarios user : usuarios){				
+				registration_ids.add(new JsonPrimitive(user.getUsuarioIdGcm()));
+				numMSGSEnviados++;
+			}			
+		}
+		return registration_ids;
+	} 
 }

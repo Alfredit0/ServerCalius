@@ -38,6 +38,13 @@ public interface UsuariosService {
 	public List<Usuarios> getAllUsers();
 	
 	/**
+	 * Gets the all users.
+	 *
+	 * @return todos los usuarios dados de alta en la base de datos
+	 */
+	public List<Usuarios> getAllUsers(String tipo, String parametro);
+	
+	/**
 	 * Gets the user by id.
 	 *
 	 * @param id el id del usuario que se desea buscar
