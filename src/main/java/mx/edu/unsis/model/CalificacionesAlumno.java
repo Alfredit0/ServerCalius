@@ -15,6 +15,18 @@ public class CalificacionesAlumno {
     private float parcial2;
     private float parcial3;
     private float ordinario;
+    
+    public CalificacionesAlumno(){
+        
+    }
+    
+    public CalificacionesAlumno(String materiaId, float parcial1, float parcial2, float parcial3, float ordinario){
+        this.materiaId = materiaId;
+        this.ordinario = ordinario;
+        this.parcial1 = parcial1;
+        this.parcial2 = parcial2;
+        this.parcial3 = parcial3;
+    }
 
     /**
      * @return the materiaId
@@ -87,9 +99,10 @@ public class CalificacionesAlumno {
     }
     
     public String toString(){
-		return "{materiaId: " +this.materiaId+", parcial1: " +this.parcial1
-				+ ",parcial2: " +this.parcial2
-				+ ",parcial3: " +this.parcial3
-                                +",ordinario: " +this.ordinario+"}";
-	}
+		return "[materiaId: " +this.materiaId+""
+                                + ", parcial1: " +this.parcial1
+				+ ", parcial2: " +this.parcial2
+				+ ", parcial3: " +this.parcial3
+                                + ", ordinario: " +this.ordinario+"]";
+    }
 }
