@@ -12,6 +12,9 @@
 	
 	<beans:bean id="userTemDao" class="mx.edu.unsis.dao.UsuariosTempDAOImplement"></beans:bean>
 	<beans:bean id="userTempService" class="mx.edu.unsis.service.UsuariosTempServiceImplement"></beans:bean>
+	
+	<beans:bean id="NotificacionesDAO" class="mx.edu.unsis.dao.NotificacionesDAOImplement"></beans:bean>
+	<beans:bean id="NotificacionesService" class="mx.edu.unsis.service.NotificacionesServiceImplement"></beans:bean>
 
 	<beans:bean id="AlumnoDAO" class="mx.edu.unsis.dao.AlumnosDAOImplement"></beans:bean>
 	<beans:bean id="AlumnoService" class="mx.edu.unsis.service.AlumnosServiceImplement"></beans:bean>

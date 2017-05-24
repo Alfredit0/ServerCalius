@@ -40,5 +40,11 @@ public class NotificacionesServiceImplement implements NotificacionesService{
 		// TODO Auto-generated method stub
 		return this.n.getAllNotificaciones();
 	}
+	
+	@Override
+	public List<Notificaciones> getNoNotificaciones(int no) {
+		// TODO Auto-generated method stub
+		return this.n.getNoNotificaciones(no);
+	}
 
 }

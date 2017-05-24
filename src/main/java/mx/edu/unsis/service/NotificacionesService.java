@@ -51,4 +51,10 @@ public interface NotificacionesService {
 	 * @return Arraylist con todas las notificaciones existentes en la base de datos
 	 */
 	public List<Notificaciones> getAllNotificaciones();
+	/**
+	 * obtiene no de notificaciones de base de datos
+	 *
+	 * @return Arraylist con no de notificaciones existentes en la base de datos
+	 */
+	public List<Notificaciones> getNoNotificaciones(int no);
 }
