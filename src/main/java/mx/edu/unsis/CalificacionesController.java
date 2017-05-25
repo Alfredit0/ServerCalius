@@ -17,6 +17,7 @@ import mx.edu.request.LoginUser;
 import mx.edu.request.MateriasRequest;
 import mx.edu.request.VerifyUserCode;
 import mx.edu.unsis.model.CalificacionesAlumno;
+import mx.edu.unsis.model.MateriasAlumno;
 import mx.edu.unsis.service.CalificacionesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +61,6 @@ public class CalificacionesController extends WebMvcConfigurerAdapter {
                 object.addProperty("parcial1", c.getParcial1());
                 object.addProperty("parcial2", c.getParcial2());
                 object.addProperty("parcial3", c.getParcial3());
-                //String json = gson.toJson(new CalificacionesAlumno(c.getMateriaId(), c.getOrdinario(), c.getParcial1(), c.getParcial2(), c.getParcial3()));
                 array.add(object);
             }
 	    if(passcon.equals("12345")){
@@ -83,9 +83,17 @@ public class CalificacionesController extends WebMvcConfigurerAdapter {
             String iduser = request.getIduser();
             String periodo = request.getPeriodo();
             logger.info("passcon "+passcon+" iduser "+iduser + " peiodo "+periodo);
+            JsonArray array = new JsonArray();
+            List<MateriasAlumno> ma = this.c.getMateriasByAlumno(iduser, periodo);
+            for(MateriasAlumno m : ma){
+                JsonObject object = new JsonObject();
+                object.addProperty("idMateria", m.getIdMateria());
+                object.addProperty("nombreMateria", m.getNombreMateria());
+                array.add(object);
+            }
 	    if(passcon.equals("12345")){
                 r.addProperty("statuscon", true);
-                r.addProperty("materias", this.c.getMateriasByAlumno(iduser, periodo).toString());
+                r.add("materias", array);
 	    }else{
 	        r.addProperty("statuscon", false);
 	    }

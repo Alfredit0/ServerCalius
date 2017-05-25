@@ -12,6 +12,15 @@ package mx.edu.unsis.model;
 public class MateriasAlumno {
             private String IdMateria;
             private String nombreMateria; 
+            
+            public MateriasAlumno(){
+                
+            }
+            
+            public MateriasAlumno(String idMateria,String nomMateria){
+                this.IdMateria = idMateria;
+                this.nombreMateria = nombreMateria;
+            }
 
             /**
              * @return the IdMateria
@@ -42,6 +51,7 @@ public class MateriasAlumno {
             }
             
     public String toString(){
-        return "{idMateria: "+IdMateria+", nombreMateria: "+nombreMateria+"}";
+        return "[idMateria: "+IdMateria+""
+                + ", nombreMateria: "+nombreMateria+"]";
     }
 }
