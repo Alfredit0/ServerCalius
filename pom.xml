@@ -143,7 +143,8 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.4.3</version>
 		</dependency>
-		<!-- Dependencias de Gson parseo de objetos JSON-->
+            
+            <!-- Dependencias de Gson parseo de objetos JSON-->
 	  <dependency>
 	      <groupId>com.google.code.gson</groupId>
 	      <artifactId>gson</artifactId>
@@ -153,7 +154,21 @@
 	      <groupId>jstl</groupId>
 	      <artifactId>jstl</artifactId>
 	      <version>1.2</version>
-	    </dependency>				
+	    </dependency>
+            
+		<!-- Dependencias para las llamadas -->
+	   <dependency>
+	            <groupId>javax</groupId>
+	            <artifactId>javaee-web-api</artifactId>
+	            <version>7.0</version>
+	            <scope>provided</scope>
+	        </dependency>
+	    <dependency>
+	      <groupId>com.twilio.sdk</groupId>
+	      <artifactId>twilio-java-sdk</artifactId>
+	      <version>(6.0,6.9)</version>
+	      <scope>compile</scope>
+	    </dependency>	                                           				
 	</dependencies>
     <build>
         <plugins>
