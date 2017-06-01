@@ -17,7 +17,10 @@ public class CalificacionesAlumno {
     private float ordinario;
     
     public CalificacionesAlumno(){
-        
+        this.parcial1 = -1;
+        this.parcial2 = -1;
+        this.parcial3 = -1;
+        this.ordinario = -1;
     }
     
     public CalificacionesAlumno(String materiaId, float parcial1, float parcial2, float parcial3, float ordinario){
