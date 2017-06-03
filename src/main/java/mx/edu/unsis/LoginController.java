@@ -220,10 +220,10 @@ public class LoginController {
         public String numerosALetras(String codigo){
         String cod;
         String[] numeros={"Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete","Ocho","Nueve"};
-        int n1 = Integer.parseInt(""+codigo.charAt(0));
-        int n2 = Integer.parseInt(""+codigo.charAt(1));
-        int n3 = Integer.parseInt(""+codigo.charAt(2));
-        int n4 = Integer.parseInt(""+codigo.charAt(3));
+        int n1 = Integer.parseInt(""+codigo.charAt(0))-1;
+        int n2 = Integer.parseInt(""+codigo.charAt(1))-1;
+        int n3 = Integer.parseInt(""+codigo.charAt(2))-1;
+        int n4 = Integer.parseInt(""+codigo.charAt(3))-1;
         cod = numeros[n1]+" , "+numeros[n2]+" , "+numeros[n3]+" , "+numeros[n4];
         return cod;
         }

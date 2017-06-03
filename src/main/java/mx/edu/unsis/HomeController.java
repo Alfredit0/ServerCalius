@@ -98,7 +98,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		}
 		model.addAttribute("serverTime", formattedDate );
 
-		return "home";
+		return "ejemploVista";
 	}
     @RequestMapping(value = "/grupos",method = RequestMethod.GET)
     public @ResponseBody String obtenerGrupos(Model model, HttpServletResponse response){
