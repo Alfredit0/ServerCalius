@@ -170,10 +170,22 @@ public class CalificacionesDAOImplement implements CalificacionesDAO{
 			            public CalificacionesAlumno mapRow(ResultSet rs, int rowNum) throws SQLException {
 			            	CalificacionesAlumno calificacion = new CalificacionesAlumno();
                                         calificacion.setMateriaId(rs.getString("cMateriaId"));
-                                        calificacion.setOrdinario(rs.getFloat("cOrdinario"));
-                                        calificacion.setParcial1(rs.getFloat("cParcial1"));
-                                        calificacion.setParcial2(rs.getFloat("cParcial2"));
-                                        calificacion.setParcial3(rs.getFloat("cParcial3"));
+                                        float ordinario = rs.getFloat("cOrdinario");
+                                        if(!rs.wasNull()){
+                                            calificacion.setOrdinario(ordinario);
+                                        }                                        
+                                        float parcial1 = rs.getFloat("cParcial1");
+                                        if(!rs.wasNull()){
+                                            calificacion.setParcial1(parcial1);
+                                        }
+                                        float parcial2 = rs.getFloat("cParcial2");
+                                        if(!rs.wasNull()){
+                                            calificacion.setParcial1(parcial2);
+                                        }
+                                        float parcial3 = rs.getFloat("cParcial3");
+                                        if(!rs.wasNull()){
+                                            calificacion.setParcial1(parcial3);
+                                        }
 			                return calificacion;
 			            }
 			        });
