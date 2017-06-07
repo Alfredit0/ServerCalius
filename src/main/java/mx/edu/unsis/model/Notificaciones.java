@@ -149,11 +149,11 @@ public class Notificaciones {
 	 */
 	public String toString(){
 		return "{"
-				+ "id: " + this.notifId
-				+ ", remitente: " + this.notifRemitente
-				+ ", destinatario: " + this.notifDestinatario
-				+ ", mensaje: " + this.notifMensaje
-				+ ", fecha: " + this.getNotifFecha()
-				+ ", asunto: " + this.notifAsunto +"}";
+				+ "\"id\": \"" + this.notifId
+				+ "\", \"remitente\": \"" + this.notifRemitente
+				+ "\", \"destinatario\": \"" + this.notifDestinatario
+				+ "\", \"mensaje\": \"" + this.notifMensaje
+				+ "\", \"fecha\": \"" + this.getNotifFecha()
+				+ "\", \"asunto\": \"" + this.notifAsunto +"\"}";
 	}
 }
