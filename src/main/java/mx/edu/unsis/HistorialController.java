@@ -41,6 +41,7 @@ import mx.edu.request.AddUser;
 import mx.edu.request.SaveUserPass;
 import mx.edu.request.history;
 import mx.edu.unsis.RequestVo;
+import mx.edu.unsis.model.CalificacionesAlumno;
 import mx.edu.unsis.model.Usuarios;
 import mx.edu.unsis.model.Notificaciones;
 import mx.edu.unsis.model.UsuariosTemp;
@@ -68,7 +69,19 @@ public class HistorialController extends WebMvcConfigurerAdapter{
 	    
 	    if(request.getPasscon().equals("12345")){
 	    	r.addProperty("statuscon", true);
-	    	r.addProperty("mensajes", this.ndao.getNoNotificaciones(request.getNo()).toString());
+                 List<Notificaciones> notificaciones = this.ndao.getNoNotificaciones(request.getNo());
+                 JsonArray array = new JsonArray();
+                 for(Notificaciones n: notificaciones){
+                    JsonObject object = new JsonObject();
+                    object.addProperty("id", n.getNotifId());
+                    object.addProperty("remitente", n.getNotifRemitente());
+                    object.addProperty("destinatario", n.getNotifDestinatario());
+                    object.addProperty("mensaje", n.getNotifMensaje());
+                    object.addProperty("fecha", n.getNotifFecha());
+                    object.addProperty("asunto", n.getNotifAsunto());
+                    array.add(object);
+                }
+	    	r.add("mensajes", array);
 	    	
 	    	
 	    }else{
