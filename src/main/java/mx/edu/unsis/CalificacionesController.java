@@ -70,9 +70,11 @@ public class CalificacionesController extends WebMvcConfigurerAdapter {
 	        r.addProperty("statuscon", false);
 	    }
             logger.info(r.toString());
-	    response.setContentType("application/json");
+	    response.setContentType("application/json;charset=utf-8");
+            response.setCharacterEncoding("UTF-8");
 	    response.setHeader("Access-Control-Allow-Origin","*");
-	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+            response.setHeader("Content-Type", "application/json; charset=UTF-8");
+	    //response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
 	    return r.toString();
 	}
     
