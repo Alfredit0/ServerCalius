@@ -122,6 +122,34 @@ public class AlumnosDAOImplement implements AlumnosDAO{
 			return null;
 		}
 	}
+	
+	@Override
+	public List<Alumnos> getAllAlumnos(String tipo, String parametro) {
+		String query = "select * from alumnos JOIN usuarios ON alumnos.alumnoMatricula = usuarios.usuarioId where"+tipo+" = '"+parametro+"'";
+		try {
+			List<Alumnos> alumnos = this.jdbcTemplate.query(
+			        query,
+			        new RowMapper<Alumnos>() {
+			            public Alumnos mapRow(ResultSet rs, int rowNum) throws SQLException {
+			                Alumnos a = new Alumnos();
+			                a.setAlumnoMatricula(rs.getString("alumnoMatricula"));
+			                a.setAlumnoAm(rs.getString("alumnoAm"));
+			                a.setAlumnoAp(rs.getString("alumnoAp"));
+			                a.setAlumnoGrupo(rs.getString("alumnoGrupo"));
+			                a.setAlumnoLic(rs.getString("alumnoLic"));
+			                a.setAlumnoNombre(rs.getString("alumnoNombre"));
+			                a.setAlumnoPeriodo(rs.getString("alumnoPeriodo"));
+			                a.setAlumnoSem(rs.getInt("alumnoSem"));
+			                return a;
+			            }
+			        });
+			logger.info("alumnos consultados exitosamente");
+			return alumnos;
+		} catch (Exception e) {
+			logger.info("error al consultar los alumnos por: "+ tipo +" y : "+parametro+" --> " + e);
+			return null;
+		}
+	}
 
 	@Override
 	public List<String> getGruposActuales() {

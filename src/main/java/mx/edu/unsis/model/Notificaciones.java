@@ -148,12 +148,12 @@ public class Notificaciones {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString(){
-		return "\n Notificaciones:"
-				+ "\n notifAsunto: " + this.notifAsunto
-				+ "\n notifDestinatario: " + this.notifAsunto
-				+ "\n notifFecha: " + this.notifAsunto
-				+ "\n notifId: " + this.notifAsunto
-				+ "\n notifMensaje: " + this.notifAsunto
-				+ "\n notifRemitente: " + this.notifAsunto;
+		return "["
+				+ "id: " + this.notifId+""
+				+ ", remitente: " + this.notifRemitente+""
+				+ ", destinatario: " + this.notifDestinatario+""
+				+ ", mensaje: " + this.notifMensaje+""
+				+ ", fecha: " + this.getNotifFecha()+""
+				+ ", asunto: " + this.notifAsunto +"]";
 	}
 }

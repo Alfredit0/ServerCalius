@@ -60,4 +60,6 @@ public interface NotificacionesDAO {
 	 * @return Arraylist con todas las notificaciones existentes en la base de datos
 	 */
 	public List<Notificaciones> getAllNotificaciones();
+	
+	public List<Notificaciones> getNoNotificaciones(int no);
 }

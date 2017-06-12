@@ -46,6 +46,8 @@ import mx.edu.unsis.service.AdministrativosService;
 import mx.edu.unsis.service.AlumnosService;
 import mx.edu.unsis.service.UsuariosTempService;
 
+import mx.edu.unsis.model.Notificaciones;
+import mx.edu.unsis.service.NotificacionesService;
 /**
  * Handles requests for the application home page.
  */
@@ -57,6 +59,12 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	@Autowired
 	private AlumnosService asv;
 
+	@Autowired
+	private AlumnosDAO serviciosAlumnos;
+        
+       @Autowired
+	private NotificacionesService svNotificaciones;
+	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	// Ubicación del fichero donde se persistira el identificador de registro
@@ -69,6 +77,9 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	public static String API_KEY="AIzaSyCjVbvarKSfCLXsnJzJ3OWDO4MeTStNVU0";
 
 	private static final long serialVersionUID = 1L;	
+	
+        public int numMSGSEnviados = 0;
+        
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -87,7 +98,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		}
 		model.addAttribute("serverTime", formattedDate );
 
-		return "home";
+		return "ejemploVista";
 	}
     @RequestMapping(value = "/grupos",method = RequestMethod.GET)
     public @ResponseBody String obtenerGrupos(Model model, HttpServletResponse response){
@@ -159,59 +170,6 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 		
 		return responseRegistrationId;
-	}
-
-	/**
-	 * SERVICIO PARA EL ENVIO DE NOTIFICACIONES
-	 */
-	@RequestMapping(value = "/sendnotification", method = RequestMethod.POST)
-	public @ResponseBody ResponseVo sendnotification(
-			HttpServletResponse response, 
-			@RequestBody RequestVo req
-			) throws IOException{
-
-		logger.info("************ENTRANDO AL METODO DE ENVIAR NOTIFICATION*********************");
-
-
-		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
-		String mensaje = req.getPassword();
-		//Se lee el identificador de registro guardado previamente a traves del servicio REST
-		String idRegistro=recuperarIdRegistro("2013060024");
-		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
-		JsonObject jsonObject = new JsonObject();
-		JsonObject data = new JsonObject();
-		data.addProperty("mensaje",mensaje);
-		JsonArray registration_ids = new JsonArray();
-		registration_ids.add(new JsonPrimitive(idRegistro));
-		/*
-		 * Por convención el objeto Json tendrá como mínimo los siguientes atributos "data" y "registration_ids" 
-		 * aunque hay muchos otros atributos que son opcionales. En este ejemplo solo se pasa por parametro un único identificador
-		 * de registro pero como pueden ser mas de uno estos se encapsulan en un array de identifiacdores de registro, con 
-		 * lo que es posible mandar una misma notificación a multiples dispositivos Android
-		 */
-		jsonObject.add("data",data);
-		jsonObject.add("registration_ids",registration_ids);
-		//Justo en la siguiente linea de codigo se invoca el servicio GCM de envio de notificaciones 
-		//y este nos devuelve una respuesta de confirmación
-		String respuesta = invocarServicioGCM(jsonObject.toString(),new URL(URL_GOOGLE_CLOUD_MESSAGE),API_KEY);
-
-		//Se almacena el mensaje de la notificación en el contexto de request para luego poder mostrarlo en la JSP de confirmación
-
-		//Por ultimo redirigimos hacia la jsp que visualiza la confirmación del envio de la notificacion
-
-
-
-		// Retorno de valores x
-		ResponseVo res = new ResponseVo();
-		res.setsuccessPassword(true);
-		res.setSuccessToken(true);
-		res.setMessageType("TEST NOTICATION");
-		res.setPost(true);
-
-		response.setContentType("application/json");
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-		return res;
 	}	
 
 	/**
@@ -222,20 +180,20 @@ public class HomeController extends WebMvcConfigurerAdapter{
 			HttpServletResponse response, 
 			@RequestBody RequestNotification req
 			) throws IOException{
+		ResponseNotification res = new ResponseNotification();
 
 		logger.info("************ENTRANDO AL METODO DE ENVIAR NOTIFICATION*********************");
-
+		if("12345".equals(req.getPasscon())){
 
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
 		String mensaje ="Asunto: " + req.getAsunto() + " Mensaje: " +req.getMensaje();
-		//Se lee el identificador de registro guardado previamente a traves del servicio REST
-		String idRegistro=recuperarIdRegistro(req.getDestintario());
+
 		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
 		JsonObject jsonObject = new JsonObject();
 		JsonObject data = new JsonObject();
 		data.addProperty("mensaje",mensaje);
-		JsonArray registration_ids = new JsonArray();
-		registration_ids.add(new JsonPrimitive(idRegistro));
+		numMSGSEnviados=0;
+		JsonArray registration_ids = obtenerArrayIdGcm(req.getTipo(), req.getDestintario());
 		/*
 		 * Por convención el objeto Json tendrá como mínimo los siguientes atributos "data" y "registration_ids" 
 		 * aunque hay muchos otros atributos que son opcionales. En este ejemplo solo se pasa por parametro un único identificador
@@ -244,27 +202,43 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		 */
 		jsonObject.add("data",data);
 		jsonObject.add("registration_ids",registration_ids);
+			
+		
+		if(numMSGSEnviados!=0){
 		//Justo en la siguiente linea de codigo se invoca el servicio GCM de envio de notificaciones 
 		//y este nos devuelve una respuesta de confirmación
 		String respuesta = invocarServicioGCM(jsonObject.toString(),new URL(URL_GOOGLE_CLOUD_MESSAGE),API_KEY);
-
-		//Se almacena el mensaje de la notificación en el contexto de request para luego poder mostrarlo en la JSP de confirmación
+		
+		// Retorno de valores 		
+		res.setStatuscon(true);
+		if(numMSGSEnviados!=0){
+		res.setProcstatus(true);
+		}else{
+			res.setProcstatus(false);
+		}
+		res.setTotalenviados(numMSGSEnviados);	
+		Notificaciones notificacion = new Notificaciones();
+		notificacion.setNotifAsunto(req.getAsunto());
+		notificacion.setNotifDestinatario(req.getDestintario());
+		notificacion.setNotifMensaje(req.getMensaje());
+		notificacion.setNotifRemitente("3256");
+		this.svNotificaciones.insertNotificaciones(notificacion);
+		}else{		
+			res.setStatuscon(true);
+			res.setProcstatus(false);
+			res.setTotalenviados(0);				
+		}
 
 		//Por ultimo redirigimos hacia la jsp que visualiza la confirmación del envio de la notificacion
-
-
-
-		// Retorno de valores x
-		ResponseNotification res = new ResponseNotification();
-		res.setStatuscon(true);
-		res.setProcstatus(true);
-		res.setTotalenviados(1);		
-
+	
+		}else{
+			res.setStatuscon(false);
+		}
 		response.setContentType("application/json");
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 		return res;
-	}	
+	}		
 
 	/**
 	 * Metodo que permite recuperar el identificador de registro que asido previamente guardado   en registration-id.txt por el
@@ -276,7 +250,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		//BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(PATH)));
 		//String registroId ="APA91bFEVZ3BEfB2rAwfc7-eZ0mSvp0FhRON8XtP7BYqQwQ06sPtz8aLUQxwJielObYF7qHa-1bJpo5-oQuPK4iThfR9PKJE7W8layNMvIb60r1hjfZEjdiuUyLG5hTtiPWs23s1Nrb79HTlkMFiqlweivtSluwyvg";  
 		//bufferedReader.close();
-		Usuarios u = this.usv.getUsuarioById("2013060024");	
+		Usuarios u = this.usv.getUsuarioById(idUser);	
 		String registroId = "";
 		registroId = u.getUsuarioIdGcm(); 
 		return registroId;
@@ -324,5 +298,28 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		}
 		return null;
 	}	  
-
+	
+	public JsonArray obtenerArrayIdGcm(String tipo, String parametro) throws IOException{		
+		JsonArray registration_ids = new JsonArray();
+		//Se lee el identificador de registro guardado previamente a traves del servicio REST
+		if("alumno".equals(tipo)){			
+			registration_ids.add(new JsonPrimitive(recuperarIdRegistro(parametro)));			
+		}else if("grupo".equals(tipo)){
+			
+			List<Usuarios> usuarios = this.usv.getAllUsers("alumnoGrupo", parametro);
+			for(Usuarios user : usuarios){				
+				registration_ids.add(new JsonPrimitive(user.getUsuarioIdGcm()));
+				numMSGSEnviados++;
+			}
+		}else if("carrera".equals(tipo)){
+			List<Usuarios> usuarios = this.usv.getAllUsers("alumnoLic", parametro);
+			for(Usuarios user : usuarios){				
+				registration_ids.add(new JsonPrimitive(user.getUsuarioIdGcm()));
+				numMSGSEnviados++;
+			}			
+		}
+		return registration_ids;
+	} 
+        
+ 
 }

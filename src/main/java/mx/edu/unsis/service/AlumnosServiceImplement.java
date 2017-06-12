@@ -65,4 +65,9 @@ public class AlumnosServiceImplement implements AlumnosService{
 		return this.a.getGruposActuales();
 	}
 
+    @Override
+    public List<Alumnos> getAllAlumnos(String tipo, String parametro) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

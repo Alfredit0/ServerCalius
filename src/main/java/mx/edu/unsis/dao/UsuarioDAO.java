@@ -53,6 +53,16 @@ public interface UsuarioDAO {
 	 * @param id el id del usuario que se desea buscar
 	 * @return el usuario que corresponda al ID
 	 */
+	
+	public List<Usuarios> getAllUsers(String tipo, String parametro);
+	
+	/**
+	 * Gets alls users.
+	 *
+	 * @param id el id del usuario que se desea buscar
+	 * @return el usuario que corresponda al ID
+	 */
+	
 	public Usuarios getUsuarioById(String id);
 	
 	/**

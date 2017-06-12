@@ -90,7 +90,7 @@ public class AdministrativosDAOImplement implements AdministrativosDAO{
 
 	@Override
 	public List<Administrativos> getAllAdministrativo() {
-		String query = "select * from alumnos";
+		String query = "select * from administrativos";
 		try {
 			List<Administrativos> alumnos = this.jdbcTemplate.query(
 			        query,
