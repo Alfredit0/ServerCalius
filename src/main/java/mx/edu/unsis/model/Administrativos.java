@@ -15,7 +15,12 @@ public class Administrativos {
 	
 	/** The admin nombre. */
 	private String adminNombre;
-	
+
+        /** The admin adminApePaterno. */
+	private String adminApePaterno;
+        
+        /** The admin adminApeMaterno. */
+	private String adminApeMaterno;
 	/** The admin puesto. */
 	private String adminPuesto;
 	
@@ -92,4 +97,20 @@ public class Administrativos {
 				+ "\n adminNombre: " +this.adminNombre
 				+ "\n adminPuesto: " +this.adminPuesto;
 	}
+
+    public String getAdminApePaterno() {
+        return adminApePaterno;
+    }
+
+    public void setAdminApePaterno(String adminApePaterno) {
+        this.adminApePaterno = adminApePaterno;
+    }
+
+    public String getAdminApeMaterno() {
+        return adminApeMaterno;
+    }
+
+    public void setAdminApeMaterno(String adminApeMaterno) {
+        this.adminApeMaterno = adminApeMaterno;
+    }
 }
