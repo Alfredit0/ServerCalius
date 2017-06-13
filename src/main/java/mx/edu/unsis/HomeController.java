@@ -149,22 +149,6 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	        responseRegistrationId.setMessageResponse("Error al registrar el codigo GCM");
 		}
 		 
-		 /*
-		    try {
-		        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(
-		            new File(PATH)));
-		        bufferedWriter.write(req.getRegistrationId());
-		        bufferedWriter.flush();
-		        bufferedWriter.close();
-		        responseRegistrationId.setCodeResponse(ResponseRegistrationId.OK);
-		        responseRegistrationId
-		            .setMessageResponse("Registro efectuado satisfactoriamente");
-		      } catch (IOException e) {
-		        // TODO Auto-generated catch block
-		        e.printStackTrace();
-		        responseRegistrationId.setCodeResponse(ResponseRegistrationId.KAO);
-		        responseRegistrationId.setMessageResponse(e.getMessage());
-		      }*/
 		      		 
 		//Cabeceras de respuesta
 		response.setContentType("application/json");
