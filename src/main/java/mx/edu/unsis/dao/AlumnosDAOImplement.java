@@ -155,14 +155,14 @@ public class AlumnosDAOImplement implements AlumnosDAO{
 	public List<String> getGruposActuales() {
 		String año, periodo="";
 		Calendar fecha = Calendar.getInstance();
-        año = String.valueOf(fecha.get(Calendar.YEAR));
+                año = String.valueOf(fecha.get(Calendar.YEAR));
 		int mes = fecha.get(Calendar.MONTH);
 		if(mes>=9 || mes <=1){
 			periodo = año+"-A";
 		}else if(mes>=2 && mes <=6){
 			periodo = año+"-B";
 		}
-		String query = "select distinct alumnoGrupo from alumnos where alumnoPeriodo = ?";
+		String query = "select distinct a.alumnoGrupo from alumnos a, usuarios u where a.alumnoPeriodo = ? and a.alumnoMatricula = u.usuarioId";
 		logger.info("Periodo Actual --> "+periodo);
 		try {
 			List<String> grupos = this.jdbcTemplate.query(

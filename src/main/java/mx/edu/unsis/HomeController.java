@@ -103,7 +103,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
     @RequestMapping(value = "/grupos",method = RequestMethod.GET)
     public @ResponseBody String obtenerGrupos(Model model, HttpServletResponse response){
 	    JsonObject r = new JsonObject();
-	    List<String> grupos = Grupos.getAllGrupos();
+	    List<String> grupos = asv.getGruposActuales();
 		
 	    r.addProperty("grupos", grupos.toString());
 	    response.setContentType("application/json");

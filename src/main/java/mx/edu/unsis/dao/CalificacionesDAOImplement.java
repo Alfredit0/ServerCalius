@@ -180,11 +180,11 @@ public class CalificacionesDAOImplement implements CalificacionesDAO{
                                         }
                                         float parcial2 = rs.getFloat("cParcial2");
                                         if(!rs.wasNull()){
-                                            calificacion.setParcial1(parcial2);
+                                            calificacion.setParcial2(parcial2);
                                         }
                                         float parcial3 = rs.getFloat("cParcial3");
                                         if(!rs.wasNull()){
-                                            calificacion.setParcial1(parcial3);
+                                            calificacion.setParcial3(parcial3);
                                         }
 			                return calificacion;
 			            }
