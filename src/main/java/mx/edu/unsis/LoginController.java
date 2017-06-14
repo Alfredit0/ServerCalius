@@ -56,6 +56,7 @@ public class LoginController {
     
     @Autowired
     private AdministrativosService adsv;
+    
     private static final Logger Logger = LoggerFactory.getLogger(LoginController.class);
     
     //Credenciales para el servicio de TWILIO
@@ -105,19 +106,23 @@ public class LoginController {
 	            r.addProperty("idstatus", false);
 	            r.addProperty("procstatus", false);
 	        }
-			else{	  
-			    UsuariosTemp u = new UsuariosTemp();
-			    u.setUsuarioId(request.getIduser());	        
-			    u.setUsuarioTelefono(request.getPhone());	
-			    String code = generarCodigo();
-			    System.out.println(code);
-			    u.setUsuarioCodigo(code);
-			    this.ustemp.insertUsuarioTemp(u);
-                            enviarCodigo(request.getPhone(), code);
-	            r.addProperty("statuscon", true);
+                else if(this.asv.getAlumnoById(request.getIduser()) != null){
+                    UsuariosTemp u = new UsuariosTemp();
+		    u.setUsuarioId(request.getIduser());	        
+		    u.setUsuarioTelefono(request.getPhone());	
+		    String code = generarCodigo();
+		    System.out.println(code);
+		    u.setUsuarioCodigo(code);
+		    this.ustemp.insertUsuarioTemp(u);
+                    enviarCodigo(request.getPhone(), code);
+                    r.addProperty("statuscon", true);
 	            r.addProperty("idstatus", true);
 	            r.addProperty("procstatus", true);
-	        }
+	        }else{
+                    r.addProperty("statuscon", true);
+	            r.addProperty("idstatus", false);
+	            r.addProperty("procstatus", false);
+                }
 	    }else{
 	        
 	            r.addProperty("statuscon", false);
