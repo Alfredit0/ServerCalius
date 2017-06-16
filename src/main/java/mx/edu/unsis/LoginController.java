@@ -113,7 +113,9 @@ public class LoginController {
 		    String code = generarCodigo();
 		    System.out.println(code);
 		    u.setUsuarioCodigo(code);
-		    this.ustemp.insertUsuarioTemp(u);
+                    if(this.ustemp.getUsuarioTempById(request.getIduser())!=null){
+		    this.ustemp.updateUsuariosTemp(u);
+                    }else{this.ustemp.insertUsuarioTemp(u);}
                     enviarCodigo(request.getPhone(), code);
                     r.addProperty("statuscon", true);
 	            r.addProperty("idstatus", true);
@@ -173,8 +175,11 @@ public class LoginController {
 		        u.setUsuarioTipo(1);
 		        this.usv.insertUsuario(u);
 		        this.ustemp.eliminarUsuarioTemp(ut.getUsuarioId());
+                        Alumnos alumno = asv.getAlumnoById(request.getIduser());
+                         
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", true);
+                    r.addProperty("nombre", alumno.getAlumnoNombre());
 	        }else{
 	            
 	            r.addProperty("statuscon", true);
