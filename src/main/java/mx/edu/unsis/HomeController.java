@@ -158,10 +158,6 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	        responseRegistrationId.setCodeResponse(ResponseRegistrationId.KAO);
 	        responseRegistrationId.setMessageResponse("Error al registrar el codigo GCM");
 		}
-<<<<<<< HEAD
-=======
-		 
->>>>>>> origin/master
 		      		 
 		//Cabeceras de respuesta
 		response.setContentType("application/json");
