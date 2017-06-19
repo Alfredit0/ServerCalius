@@ -53,9 +53,14 @@ public class LoginController {
     public static final String ACCOUNT_SID = "ACfd260d809fdea584b042bd82197864a5";
     public static final String AUTH_TOKEN = "78509a7c1dc08ed2587ae7197d65e57a";	
 	
-    
+    /**
+     * Servicio para el logueo del usuario.
+     * @param response crea un objeto con las cabeceras de js a regresar.
+     * @param request ayuda a obtener los valores para el logueo.
+     * @return
+     */
     @RequestMapping(value = "/loginuser",method = RequestMethod.POST)
-    public @ResponseBody String loginUser(Model model, HttpServletResponse response, @RequestBody LoginUser request){
+    public @ResponseBody String loginUser(HttpServletResponse response, @RequestBody LoginUser request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
 	        Usuarios u = this.usv.loginUser(request.getIduser(),request.getPassword(), request.getUsuarioTipo());
@@ -77,9 +82,16 @@ public class LoginController {
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
 	    return r.toString();
     }
-    
+    /**
+     * Método para agregar un nuevo usuario.
+     * @param response crea un objeto con las cabeceras del js.
+     * @param request obtiene los datos del usuario.
+     * @return un estado según aya sido la insercción.
+     * @throws IOException
+     * @throws TwilioRestException
+     */
     @RequestMapping(value = "/adduser",method = RequestMethod.POST)
-    public @ResponseBody String AddUser(Model model, HttpServletResponse response, @RequestBody AddUser request) throws IOException, TwilioRestException{
+    public @ResponseBody String AddUser(HttpServletResponse response, @RequestBody AddUser request) throws IOException, TwilioRestException{
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
 	    	Usuarios usuario = new Usuarios();
@@ -113,9 +125,14 @@ public class LoginController {
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
 	    return r.toString();
 	}
-    
+    /**
+     * Método que veryfica si el código de usuario es correcto
+     * @param response crea un objeto con las cabeceras del js
+     * @param request obtiene los datos de comprovación
+     * @return los estados dependiendo si el código es correcto o no.
+     */
     @RequestMapping(value = "/verifyusercode",method = RequestMethod.POST)
-    public @ResponseBody String VerifyUserCode(Model model, HttpServletResponse response, @RequestBody VerifyUserCode request){
+    public @ResponseBody String VerifyUserCode(HttpServletResponse response, @RequestBody VerifyUserCode request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
 	        
@@ -137,9 +154,14 @@ public class LoginController {
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
 	    return r.toString();
 	}
-    
+    /**
+     * Método para guardar la contraseña del usuario
+     * @param response crea un objeto con las cabeceras de js.
+     * @param request obtiene algunos datos del usuario
+     * @return los estados dependiendo si la contraseña se gusrda correcta o incorrectamente.
+     */
     @RequestMapping(value = "/saveuserpass",method = RequestMethod.POST)
-    public @ResponseBody String SaveUserPass(Model model, HttpServletResponse response, @RequestBody SaveUserPass request){
+    public @ResponseBody String SaveUserPass(HttpServletResponse response, @RequestBody SaveUserPass request){
 	    JsonObject r = new JsonObject();
 	    if(request.getPasscon().equals("12345")){
 	        UsuariosTemp ut = this.ustemp.getUsuarioTempById(request.getIduser());
@@ -169,7 +191,10 @@ public class LoginController {
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
 	    return r.toString();
 	}
-    
+    /**
+     * Método para generar el código al agregar un nuevo usuario.
+     * @return el código de veryficación.
+     */
     public String generarCodigo(){
     	String cod="";
     	cod=""+ThreadLocalRandom.current().nextInt(0, 8 + 1)+""+ThreadLocalRandom.current().nextInt(0, 8 + 1);
@@ -178,9 +203,13 @@ public class LoginController {
     	return cod;
     }
     
-            /*
-        *
-        */	
+    /**
+     * Método para realizar el envió de mensajes
+     * @param numero es el destinatario al que se le enviara el código
+     * @param cod es el código a enviar
+     * @throws IOException
+     * @throws TwilioRestException
+     */
 	public void enviarCodigo(String numero, String cod) throws IOException, TwilioRestException {
             
             //Numero al cual enviar el codigo
@@ -216,6 +245,11 @@ public class LoginController {
                         call = callFactory.create(callParams);
                         System.out.println(call.getSid());
 	}      
+	/**
+	 * Método para parserar los números
+	 * @param codigo valor que se genera después del parseo.
+	 * @return codigo generado
+	 */
         
         public String numerosALetras(String codigo){
         String cod;

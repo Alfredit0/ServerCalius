@@ -100,8 +100,13 @@ public class HomeController extends WebMvcConfigurerAdapter{
 
 		return "ejemploVista";
 	}
+	/**
+	 * Método que obtiene una lista de todos los grupos.
+	 * @param response crea un objeto con la lista de los grupos obtenidos.
+	 * @return una lista con todos los grupos obtenidos.
+	 */
     @RequestMapping(value = "/grupos",method = RequestMethod.GET)
-    public @ResponseBody String obtenerGrupos(Model model, HttpServletResponse response){
+    public @ResponseBody String obtenerGrupos(HttpServletResponse response){
 	    JsonObject r = new JsonObject();
 	    List<String> grupos = Grupos.getAllGrupos();
 		
@@ -111,9 +116,14 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	    response.setHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
 	    return r.toString();
 	}	
-
+    
+    /**
+     * Método que obtiene una lista de todas las carreras.
+     * @param response cra un objeto con una lista de las carreras obtenidas
+     * @return una lista con todas las carreras obtenidas.
+     */
     @RequestMapping(value = "/carreras",method = RequestMethod.GET)
-    public @ResponseBody String obtenerCarreras(Model model, HttpServletResponse response){
+    public @ResponseBody String obtenerCarreras( HttpServletResponse response){
 	    JsonObject r = new JsonObject();
 		List<String> licenciaturas = Licenciaturas.getAllLicenciaturas();
 		
@@ -146,23 +156,6 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	        responseRegistrationId.setCodeResponse(ResponseRegistrationId.KAO);
 	        responseRegistrationId.setMessageResponse("Error al registrar el codigo GCM");
 		}
-		 
-		 /*
-		    try {
-		        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(
-		            new File(PATH)));
-		        bufferedWriter.write(req.getRegistrationId());
-		        bufferedWriter.flush();
-		        bufferedWriter.close();
-		        responseRegistrationId.setCodeResponse(ResponseRegistrationId.OK);
-		        responseRegistrationId
-		            .setMessageResponse("Registro efectuado satisfactoriamente");
-		      } catch (IOException e) {
-		        // TODO Auto-generated catch block
-		        e.printStackTrace();
-		        responseRegistrationId.setCodeResponse(ResponseRegistrationId.KAO);
-		        responseRegistrationId.setMessageResponse(e.getMessage());
-		      }*/
 		      		 
 		//Cabeceras de respuesta
 		response.setContentType("application/json");
@@ -197,8 +190,8 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		/*
 		 * Por convención el objeto Json tendrá como mínimo los siguientes atributos "data" y "registration_ids" 
 		 * aunque hay muchos otros atributos que son opcionales. En este ejemplo solo se pasa por parametro un único identificador
-		 * de registro pero como pueden ser mas de uno estos se encapsulan en un array de identifiacdores de registro, con 
-		 * lo que es posible mandar una misma notificación a multiples dispositivos Android
+		 * de registro pero como pueden ser más de uno estos se encapsulan en un array de identifiacdores de registro, con 
+		 * lo que es posible mandar una misma notificación a múltiples dispositivos Android
 		 */
 		jsonObject.add("data",data);
 		jsonObject.add("registration_ids",registration_ids);
@@ -298,7 +291,13 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		}
 		return null;
 	}	  
-	
+	/**
+	 * Método para obtener el idetificador Gcm y guardar el registro.
+	 * @param tipo para que usuario se dirige la notificacion.
+	 * @param parametro guarda el tipo de usuario
+	 * @return el registro  guardado por el servicio REST
+	 * @throws IOException
+	 */
 	public JsonArray obtenerArrayIdGcm(String tipo, String parametro) throws IOException{		
 		JsonArray registration_ids = new JsonArray();
 		//Se lee el identificador de registro guardado previamente a traves del servicio REST

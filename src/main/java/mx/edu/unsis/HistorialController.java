@@ -61,10 +61,15 @@ public class HistorialController extends WebMvcConfigurerAdapter{
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-
+	/**
+	 * Método que regresa al cliente un historial de notificaciones. 
+	 * @param response crea un objeto con la estructura de las notificaciones.
+	 * @param request obtiene la contraseña de conexión y el número de notificaciones.
+	 * @return una lista de notificaciones.
+	 */
 
     @RequestMapping(value = "/historialnotificaciones",method = RequestMethod.POST)
-    public @ResponseBody String getNoNotificaciones(Model model, HttpServletResponse response, @RequestBody history request){
+    public @ResponseBody String getNoNotificaciones(HttpServletResponse response, @RequestBody history request){
 	    JsonObject r = new JsonObject();
 	    
 	    if(request.getPasscon().equals("12345")){
@@ -81,8 +86,7 @@ public class HistorialController extends WebMvcConfigurerAdapter{
                     object.addProperty("asunto", n.getNotifAsunto());
                     array.add(object);
                 }
-	    	r.add("mensajes", array);
-	    	
+	    	r.add("mensajes", array);  	
 	    	
 	    }else{
 	        

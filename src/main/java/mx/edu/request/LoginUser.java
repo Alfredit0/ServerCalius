@@ -15,12 +15,12 @@ public class LoginUser {
     private String password;
     private int usuarioTipo;
     
-    
-
+    /*regresa valor usuarioTipo*/
     public int getUsuarioTipo() {
 		return usuarioTipo;
 	}
 
+    /*asigna valor a usuarioTipo*/
 	public void setUsuarioTipo(int usuarioTipo) {
 		this.usuarioTipo = usuarioTipo;
 	}
