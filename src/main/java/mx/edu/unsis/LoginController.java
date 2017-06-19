@@ -30,8 +30,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mx.edu.request.*;
+import mx.edu.unsis.model.Administrativos;
+import mx.edu.unsis.model.Alumnos;
 import mx.edu.unsis.model.Usuarios;
 import mx.edu.unsis.model.UsuariosTemp;
+import mx.edu.unsis.service.AdministrativosService;
+import mx.edu.unsis.service.AlumnosService;
 import mx.edu.unsis.service.UsuariosService;
 import mx.edu.unsis.service.UsuariosTempService;
 
@@ -46,6 +50,12 @@ public class LoginController {
     
     @Autowired
     private UsuariosTempService ustemp;
+    
+    @Autowired
+    private AlumnosService asv;
+    
+    @Autowired
+    private AdministrativosService adsv;
     
     private static final Logger Logger = LoggerFactory.getLogger(LoginController.class);
     
@@ -68,14 +78,21 @@ public class LoginController {
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", false);
 	        }else{
-	            
+                    String nombre="";
+	            if(request.getUsuarioTipo()==1){
+                        Alumnos alumno = asv.getAlumnoById(request.getIduser());
+                        nombre = alumno.getAlumnoNombre();
+                    }else if(request.getUsuarioTipo()==2){
+                        Administrativos admin = adsv.getAdministrativoById(request.getIduser());
+                        nombre= admin.getAdminNombre();
+                    }                    
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", true);
+                    r.addProperty("nombre", nombre);
 	        }
 	    }else{
 	        
-	            r.addProperty("statuscon", false);
-	            r.addProperty("status", false);
+	            r.addProperty("statuscon", false);	            
 	    }
 	    response.setContentType("application/json");
 	    response.setHeader("Access-Control-Allow-Origin","*");
@@ -101,19 +118,25 @@ public class LoginController {
 	            r.addProperty("idstatus", false);
 	            r.addProperty("procstatus", false);
 	        }
-			else{	  
-			    UsuariosTemp u = new UsuariosTemp();
-			    u.setUsuarioId(request.getIduser());	        
-			    u.setUsuarioTelefono(request.getPhone());	
-			    String code = generarCodigo();
-			    System.out.println(code);
-			    u.setUsuarioCodigo(code);
-			    this.ustemp.insertUsuarioTemp(u);
-                            enviarCodigo(request.getPhone(), code);
-	            r.addProperty("statuscon", true);
+                else if(this.asv.getAlumnoById(request.getIduser()) != null){
+                    UsuariosTemp u = new UsuariosTemp();
+		    u.setUsuarioId(request.getIduser());	        
+		    u.setUsuarioTelefono(request.getPhone());	
+		    String code = generarCodigo();
+		    System.out.println(code);
+		    u.setUsuarioCodigo(code);
+                    if(this.ustemp.getUsuarioTempById(request.getIduser())!=null){
+		    this.ustemp.updateUsuariosTemp(u);
+                    }else{this.ustemp.insertUsuarioTemp(u);}
+                    enviarCodigo(request.getPhone(), code);
+                    r.addProperty("statuscon", true);
 	            r.addProperty("idstatus", true);
 	            r.addProperty("procstatus", true);
-	        }
+	        }else{
+                    r.addProperty("statuscon", true);
+	            r.addProperty("idstatus", false);
+	            r.addProperty("procstatus", false);
+                }
 	    }else{
 	        
 	            r.addProperty("statuscon", false);
@@ -174,8 +197,11 @@ public class LoginController {
 		        u.setUsuarioTipo(1);
 		        this.usv.insertUsuario(u);
 		        this.ustemp.eliminarUsuarioTemp(ut.getUsuarioId());
+                        Alumnos alumno = asv.getAlumnoById(request.getIduser());
+                         
 	            r.addProperty("statuscon", true);
 	            r.addProperty("status", true);
+                    r.addProperty("nombre", alumno.getAlumnoNombre());
 	        }else{
 	            
 	            r.addProperty("statuscon", true);
@@ -217,19 +243,6 @@ public class LoginController {
             
             //codigo
             String codigo = numerosALetras(cod);
-	        /*TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
-	        
-	        Account account = client.getAccount();
-	 
-	        SmsFactory factory = account.getSmsFactory();
-	 
-	        HashMap<String, String> message = new HashMap<String, String>();
-	 
-	        message.put("To", telefono);
-	        message.put("From", "+523353516707");
-	        message.put("Body", codigo);
-	 
-	        factory.create(message);*/
 	        
 			TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
 			Account mainAccount = client.getAccount();

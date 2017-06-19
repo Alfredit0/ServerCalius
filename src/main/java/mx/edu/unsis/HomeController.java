@@ -32,6 +32,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import mx.edu.unsis.ResponseVo;
 import mx.edu.unsis.dao.AlumnosDAO;
@@ -108,7 +110,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
     @RequestMapping(value = "/grupos",method = RequestMethod.GET)
     public @ResponseBody String obtenerGrupos(HttpServletResponse response){
 	    JsonObject r = new JsonObject();
-	    List<String> grupos = Grupos.getAllGrupos();
+	    List<String> grupos = asv.getGruposActuales();
 		
 	    r.addProperty("grupos", grupos.toString());
 	    response.setContentType("application/json");
@@ -156,6 +158,10 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	        responseRegistrationId.setCodeResponse(ResponseRegistrationId.KAO);
 	        responseRegistrationId.setMessageResponse("Error al registrar el codigo GCM");
 		}
+<<<<<<< HEAD
+=======
+		 
+>>>>>>> origin/master
 		      		 
 		//Cabeceras de respuesta
 		response.setContentType("application/json");
@@ -169,7 +175,7 @@ public class HomeController extends WebMvcConfigurerAdapter{
 	 * SERVICIO PARA EL ENVIO DE NOTIFICACIONES v2.0
 	 */
 	@RequestMapping(value = "/sendnotifications", method = RequestMethod.POST)
-	public @ResponseBody ResponseNotification sendnotifications(
+	public @ResponseBody ResponseNotification sendnotifications(Locale locale,
 			HttpServletResponse response, 
 			@RequestBody RequestNotification req
 			) throws IOException{
@@ -181,27 +187,10 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		//Recuperamos el mensaje de la notificación introducido y enviado a traves del formaluario web de index,jsp
 		String mensaje ="Asunto: " + req.getAsunto() + " Mensaje: " +req.getMensaje();
 
-		//A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
-		JsonObject jsonObject = new JsonObject();
-		JsonObject data = new JsonObject();
-		data.addProperty("mensaje",mensaje);
+
 		numMSGSEnviados=0;
 		JsonArray registration_ids = obtenerArrayIdGcm(req.getTipo(), req.getDestintario());
-		/*
-		 * Por convención el objeto Json tendrá como mínimo los siguientes atributos "data" y "registration_ids" 
-		 * aunque hay muchos otros atributos que son opcionales. En este ejemplo solo se pasa por parametro un único identificador
-		 * de registro pero como pueden ser más de uno estos se encapsulan en un array de identifiacdores de registro, con 
-		 * lo que es posible mandar una misma notificación a múltiples dispositivos Android
-		 */
-		jsonObject.add("data",data);
-		jsonObject.add("registration_ids",registration_ids);
-			
-		
-		if(numMSGSEnviados!=0){
-		//Justo en la siguiente linea de codigo se invoca el servicio GCM de envio de notificaciones 
-		//y este nos devuelve una respuesta de confirmación
-		String respuesta = invocarServicioGCM(jsonObject.toString(),new URL(URL_GOOGLE_CLOUD_MESSAGE),API_KEY);
-		
+	
 		// Retorno de valores 		
 		res.setStatuscon(true);
 		if(numMSGSEnviados!=0){
@@ -209,12 +198,41 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		}else{
 			res.setProcstatus(false);
 		}
+                //A partir de aqui se crea un objeto JSON que envuelve todos los parametros que le mandaremos al servicio de GCM
+		JsonObject jsonObject = new JsonObject();
+		JsonObject data = new JsonObject();		
+                
 		res.setTotalenviados(numMSGSEnviados);	
 		Notificaciones notificacion = new Notificaciones();
 		notificacion.setNotifAsunto(req.getAsunto());
 		notificacion.setNotifDestinatario(req.getDestintario());
 		notificacion.setNotifMensaje(req.getMensaje());
-		notificacion.setNotifRemitente("3256");
+		notificacion.setNotifRemitente(req.getRemitente());
+                
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE, 1);
+                SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+                String formatted = format1.format(cal.getTime());
+                System.out.println(formatted);
+                // Output "2012-09-26"
+                notificacion.setNotifFecha(formatted);
+                
+                /*
+		 * Por convención el objeto Json tendrá como mínimo los siguientes atributos "data" y "registration_ids" 
+		 * aunque hay muchos otros atributos que son opcionales. En este ejemplo solo se pasa por parametro un único identificador
+		 * de registro pero como pueden ser más de uno estos se encapsulan en un array de identifiacdores de registro, con 
+		 * lo que es posible mandar una misma notificación a múltiples dispositivos Android
+		 */
+		jsonObject.add("data",data);
+                data.addProperty("mensaje",notificacion.toString());
+		jsonObject.add("registration_ids",registration_ids);
+			
+		
+		if(numMSGSEnviados!=0){
+		//Justo en la siguiente linea de codigo se invoca el servicio GCM de envio de notificaciones 
+		//y este nos devuelve una respuesta de confirmación
+		String respuesta = invocarServicioGCM(jsonObject.toString(),new URL(URL_GOOGLE_CLOUD_MESSAGE),API_KEY);
+	
 		this.svNotificaciones.insertNotificaciones(notificacion);
 		}else{		
 			res.setStatuscon(true);
@@ -302,7 +320,8 @@ public class HomeController extends WebMvcConfigurerAdapter{
 		JsonArray registration_ids = new JsonArray();
 		//Se lee el identificador de registro guardado previamente a traves del servicio REST
 		if("alumno".equals(tipo)){			
-			registration_ids.add(new JsonPrimitive(recuperarIdRegistro(parametro)));			
+			registration_ids.add(new JsonPrimitive(recuperarIdRegistro(parametro)));	
+                        numMSGSEnviados++;
 		}else if("grupo".equals(tipo)){
 			
 			List<Usuarios> usuarios = this.usv.getAllUsers("alumnoGrupo", parametro);

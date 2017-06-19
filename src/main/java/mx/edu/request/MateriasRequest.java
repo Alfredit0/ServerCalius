@@ -10,8 +10,11 @@ package mx.edu.request;
  * @author VICENTE
  */
 public class MateriasRequest {
+    /*indica la contraseña de conexion*/
     private String passcon;
+    /*matricula del alumno del que se quiere consultar sus materias*/
     private String iduser;
+    /*periodo actual de clases*/
     private String periodo;
 
     /**

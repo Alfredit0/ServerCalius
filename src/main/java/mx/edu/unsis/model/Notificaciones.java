@@ -148,12 +148,12 @@ public class Notificaciones {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString(){
-		return "["
-				+ "id: " + this.notifId+""
-				+ ", remitente: " + this.notifRemitente+""
-				+ ", destinatario: " + this.notifDestinatario+""
-				+ ", mensaje: " + this.notifMensaje+""
-				+ ", fecha: " + this.getNotifFecha()+""
-				+ ", asunto: " + this.notifAsunto +"]";
+		return "{"
+				+ "\"id\": \"" + this.notifId
+				+ "\", \"remitente\": \"" + this.notifRemitente
+				+ "\", \"destinatario\": \"" + this.notifDestinatario
+				+ "\", \"mensaje\": \"" + this.notifMensaje
+				+ "\", \"fecha\": \"" + this.getNotifFecha()
+				+ "\", \"asunto\": \"" + this.notifAsunto +"\"}";
 	}
 }

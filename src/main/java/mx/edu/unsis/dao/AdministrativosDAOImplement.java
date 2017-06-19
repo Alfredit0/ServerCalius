@@ -27,9 +27,9 @@ public class AdministrativosDAOImplement implements AdministrativosDAO{
 
 	@Override
 	public boolean insertAdministrativo(Administrativos a) {
-		String query = "INSERT INTO administrativos (adminId, adminNombre, adminPuesto) values (?, ?, ?);";
+		String query = "INSERT INTO administrativos (adminId, adminNombre, adminApePaterno, adminApeMaterno, adminPuesto) values (?, ?, ?);";
 		try {
-			jdbcTemplate.update(query, new Object[]{a.getAdminId(), a.getAdminNombre(), a.getAdminPuesto()});
+			jdbcTemplate.update(query, new Object[]{a.getAdminId(), a.getAdminNombre(), a.getAdminApePaterno(), a.getAdminApeMaterno(), a.getAdminPuesto()});
 			logger.info("El administrativo fue insertado correctamente. Datos del adminitrativo --> "+a);
 			return true;
 		} catch (Exception e) {
@@ -40,7 +40,7 @@ public class AdministrativosDAOImplement implements AdministrativosDAO{
 
 	@Override
 	public boolean updateAdministrativo(Administrativos a) {
-		String query = "update administrativos set adminNombre = ?, adminPuesto = ? where adminId = ?;";
+		String query = "update administrativos set adminNombre = ?, adminApePaterno= ?,adminApeMaterno = ?, adminPuesto = ? where adminId = ?;";
 		try {
 			jdbcTemplate.update(query, new Object[]{ a.getAdminNombre(), a.getAdminPuesto(), a.getAdminId()});
 			logger.info("El administrador fue actualizado correctamente. Datos del administrador --> "+a);
@@ -75,8 +75,10 @@ public class AdministrativosDAOImplement implements AdministrativosDAO{
 			            public Administrativos mapRow(ResultSet rs, int rowNum) throws SQLException {
 			                Administrativos a = new Administrativos();
 			                a.setAdminId(rs.getString("adminId"));
-			                a.setAdminNombre(rs.getString("nombre"));
-			                a.setAdminPuesto(rs.getString("puesto"));
+			                a.setAdminNombre(rs.getString("adminNombre"));
+                                        a.setAdminApePaterno(rs.getString("adminApePaterno"));
+                                        a.setAdminApeMaterno(rs.getString("adminApeMaterno"));
+			                a.setAdminPuesto(rs.getString("adminPuesto"));
 			                return a;
 			            }
 			        });
@@ -97,9 +99,11 @@ public class AdministrativosDAOImplement implements AdministrativosDAO{
 			        new RowMapper<Administrativos>() {
 			            public Administrativos mapRow(ResultSet rs, int rowNum) throws SQLException {
 			            	Administrativos a = new Administrativos();
-			            	a.setAdminId(rs.getString("adminId"));
-			                a.setAdminNombre(rs.getString("nombre"));
-			                a.setAdminPuesto(rs.getString("puesto"));
+			                a.setAdminId(rs.getString("adminId"));
+			                a.setAdminNombre(rs.getString("adminNombre"));
+                                        a.setAdminApePaterno(rs.getString("adminApePaterno"));
+                                        a.setAdminApeMaterno(rs.getString("adminApeMaterno"));
+			                a.setAdminPuesto(rs.getString("adminPuesto"));
 			                return a;
 			            }
 			        });

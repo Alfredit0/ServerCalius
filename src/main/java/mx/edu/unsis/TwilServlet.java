@@ -21,7 +21,7 @@ import com.twilio.sdk.verbs.TwiMLResponse;
  * @author Meltsan
  */
 public class TwilServlet extends HttpServlet {
-
+    /*Identificador para el servicio de la API de llamadas*/
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -33,6 +33,9 @@ public class TwilServlet extends HttpServlet {
     }
 
 	/**
+         * se recibe el token, y se procede a definir los parametros de llamada
+         * y se invoca al servicio proporcionado por la API twilio para realizar
+         * la llamda.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,8 +44,11 @@ public class TwilServlet extends HttpServlet {
 		// Create a TwiML response and add our friendly message.
         TwiMLResponse twiml = new TwiMLResponse();
         System.out.println(token);
+        //se especifica el mensaje que queremos oir
         Say say = new Say("Tu codigo de verificacion es: " + token);
+        //se indica el tipo de voz a usar
         say.setVoice("man");        
+        //se especifica el lenguaje
         say.setLanguage("es-MX");        
         //Play play = new Play("http://demo.twilio.com/hellomonkey/monkey.mp3");
         //play.setLoop(10);

@@ -6,12 +6,16 @@
 package mx.edu.request;
 
 /**
- *
+ * Clase que se mapea con los parametro enviados por el cliente al cosumir el
+ * servicio de calificaciones
  * @author VICENTE
  */
 public class CalificacionesRequest {
+    /*indica la contraseña de conexion*/
     private String passcon;
+    /*matricula del alumno a consultar su calificación*/
     private String iduser;
+    /*periodo de clases actual*/
     private String periodo;
 
     /**
